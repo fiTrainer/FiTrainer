@@ -38,7 +38,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
      2 --> Si viene de Mis Rutinas */
 
 
-    //ABEL
+    //ABEL de andres
 
     public ExpandableListAdapter(Activity context, List<String> laptops,
                                  Map<String, ArrayList<Ejercicio>> laptopCollections, int vieneDe) {
