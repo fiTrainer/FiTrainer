@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/descarga"
+        android:contentDescription="@string/app_name"/>
+
+    <TextView
+        android:text="TextView"
+        android:paddingLeft="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detCatDesc"
+        android:layout_alignStart="@+id/detCatDesc"
+        android:id="@+id/detCatTxvDesc"
+        android:layout_toStartOf="@+id/delete" />
+
+    <TextView
+        android:text="@string/detCatDesc"
+        android:paddingLeft="25dp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/detCatDesc"
+        android:layout_below="@+id/laptop"
+        android:layout_alignStart="@+id/laptop" />
+
+    <TextView
+        android:id="@+id/laptop"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/detCatTxvDesc"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp"
+        android:layout_alignBottom="@+id/detCatBtnConfi"
+        android:layout_alignEnd="@+id/detCatDesc" />
+
+    <Button
+        android:text="@string/detCatbtnConfig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/detCatBtnConfi"
+        android:layout_marginTop="85dp"
+        android:layout_below="@+id/detCatTxvDesc"
+        android:layout_alignEnd="@+id/detCatTxvDesc" />
+
+
+</RelativeLayout>

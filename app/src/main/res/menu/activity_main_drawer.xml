@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_mi_perfil"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/mi_perfil" />
+        <item
+            android:id="@+id/nav_mis_rutinas"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/mis_rutinas" />
+        <item
+            android:id="@+id/nav_mis_dietas"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/mis_dietas" />
+        <item
+            android:id="@+id/nav_asignar_usuario"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/asignar_usuario" />
+        <item
+            android:id="@+id/nav_inicio_sesion"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/inicio_sesion" />
+        <item
+            android:id="@+id/nav_desconectar"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/desconectar" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>
