@@ -37,6 +37,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
      1 --> Si viene de Listado Categorias
      2 --> Si viene de Mis Rutinas */
 
+
+    //AAAAA
+
     public ExpandableListAdapter(Activity context, List<String> laptops,
                                  Map<String, ArrayList<Ejercicio>> laptopCollections, int vieneDe) {
         this.context = context;
