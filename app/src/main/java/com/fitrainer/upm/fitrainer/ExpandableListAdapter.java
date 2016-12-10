@@ -79,6 +79,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if(this.origenActividad==0){
             confButton.setVisibility(View.INVISIBLE);
             delete.setVisibility(View.INVISIBLE);
+            descripcion.setText(descripcionEjercicio);
         }else if(this.origenActividad==1){
             //titulo.setVisibility(View.INVISIBLE);
             confButton.setOnClickListener(new OnClickListener() {
@@ -119,7 +120,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                     alertDialog.show();
                 }
             });
-
+            descripcion.setText(descripcionEjercicio);
         }
         else if(this.origenActividad==3){
             descripcion.setVisibility(View.INVISIBLE);
