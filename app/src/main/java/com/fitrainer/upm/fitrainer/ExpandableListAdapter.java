@@ -32,6 +32,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> laptops;
     private int origenActividad;
 
+
     /* OrigenActividad
      0 --> Si viene de Main
      1 --> Si viene de Listado Categorias

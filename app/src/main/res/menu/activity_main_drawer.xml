@@ -4,27 +4,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_mi_perfil"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_menu_perfil"
             android:title="@string/mi_perfil" />
         <item
             android:id="@+id/nav_mis_rutinas"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_menu_rutinas"
             android:title="@string/mis_rutinas" />
         <item
             android:id="@+id/nav_mis_dietas"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_dieta"
             android:title="@string/mis_dietas" />
         <item
             android:id="@+id/nav_asignar_usuario"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_asignar"
             android:title="@string/asignar_usuario" />
         <item
             android:id="@+id/nav_inicio_sesion"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_login"
             android:title="@string/inicio_sesion" />
         <item
             android:id="@+id/nav_desconectar"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_logoff"
             android:title="@string/desconectar" />
     </group>
 

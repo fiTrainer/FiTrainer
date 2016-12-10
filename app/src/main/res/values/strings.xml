@@ -6,6 +6,7 @@
 
     <string name="action_settings">Settings</string>
 
+    <!-- Strings related to Menu Hamburguesa -->
     <string name="mi_perfil">Mi Perfil</string>
     <string name="mis_rutinas">Mis rutinas</string>
     <string name="mis_dietas">Mis dietas</string>
@@ -24,6 +25,11 @@
     <string name="btnAbdominales">Abdominales</string>
     <string name="title_activity_detalle_categoria">DetalleCategoria</string>
     <string name="title_activity_inicio_sesion">Sign in</string>
+
+    <!-- Strings related to Main Activity -->
+        <!-- Tabs -->
+    <string name="tabRutinaHoy">Rutina de hoy</string>
+    <string name="tabMenuHoy">Menú de hoy</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -56,6 +62,7 @@
 
     <!-- Strings related to Floating Button y Floating Menu -->
     <string name="flBtnAddRutina">Añadir rutina</string>
+    <string name="flBtnAddMenu">Añadir menu</string>
     <string name="flBtnCalendario">Ver calendario</string>
 
 
