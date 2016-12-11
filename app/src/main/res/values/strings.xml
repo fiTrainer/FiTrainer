@@ -27,7 +27,7 @@
     <string name="title_activity_inicio_sesion">Sign in</string>
 
     <!-- Strings related to Main Activity -->
-        <!-- Tabs -->
+    <!-- Tabs -->
     <string name="tabRutinaHoy">Rutina de hoy</string>
     <string name="tabMenuHoy">Menú de hoy</string>
 
@@ -75,7 +75,9 @@
     <string name="confRepeticiones">Repeticiones</string>
     <string name="confPeso">Peso</string>
     <string name="confGuardar">Guardar</string>
-    <string name="confModificarr">Modificar</string>
+    <string name="confModificar">Modificar</string>
+    <string name="confMas">+</string>
+    <string name="confMenos">-</string>
 
     <!-- Strings related to Configuracion -->
     <string name="misRutinas">Mis rutinas</string>

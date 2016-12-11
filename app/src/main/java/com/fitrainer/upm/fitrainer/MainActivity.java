@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity
         floatingActionButton2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO something when floating action menu second item clicked
-                //Intent intent = new Intent(getApplicationContext(),Calendario.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(),CrearModificarMenu.class);
+                startActivity(intent);
 
             }
         });
@@ -104,17 +104,13 @@ public class MainActivity extends AppCompatActivity
         floatingActionButton3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO something when floating action menu second item clicked
-                //Intent intent = new Intent(getApplicationContext(),Calendario.class);
-                //startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(),ListadoMenus.class);
+                startActivity(intent);
 
             }
         });
 
     }
-
-
-
-
 
     @Override
     public void onBackPressed() {

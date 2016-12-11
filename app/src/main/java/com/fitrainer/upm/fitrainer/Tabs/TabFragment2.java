@@ -3,9 +3,7 @@ package com.fitrainer.upm.fitrainer.Tabs;
 /**
  * Created by abel on 10/12/16.
  */
-/**
- * Created by abel on 10/12/16.
- */
+
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -66,7 +64,7 @@ public class TabFragment2 extends Fragment {
     private void createGroupList() {
         groupList = new ArrayList<String>();
         groupList.add("DESAYUNO");
-        groupList.add("APERITIVO");
+        groupList.add("ALMUERZO");
         groupList.add("COMIDA");
         groupList.add("MERIENDA");
         groupList.add("CENA");
@@ -95,7 +93,7 @@ public class TabFragment2 extends Fragment {
         for (String laptop : groupList) {
             if (laptop.equals("DESAYUNO")) {
                 loadChild(piernaModel);
-            } else if (laptop.equals("APERITIVO"))
+            } else if (laptop.equals("ALMUERZO"))
                 loadChild(pechoModel);
             else if (laptop.equals("COMIDA"))
                 loadChild(espaldaModel);

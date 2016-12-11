@@ -11,74 +11,126 @@
     tools:context="com.fitrainer.upm.fitrainer.ConfigurarEjercicios">
 
 
-    <NumberPicker
-        android:id="@+id/npRepeticiones"
+    <Button
+        android:text="@string/confMenos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/npSeries"
-        android:layout_alignBottom="@+id/npSeries"
-        android:layout_alignStart="@+id/confRepeticiones" />
-
-    <NumberPicker
-        android:id="@+id/npPeso"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/npRepeticiones"
-        android:layout_alignBottom="@+id/npRepeticiones"
-        android:layout_alignStart="@+id/confPeso" />
-
-    <NumberPicker
-        android:id="@+id/npSeries"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="211dp" />
+        android:layout_marginTop="32dp"
+        android:id="@+id/botonMenosSeries" />
+
+    <Button
+        android:text="@string/confMenos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="66dp"
+        android:id="@+id/botonMenosRep"
+        android:layout_below="@+id/botonMenosSeries"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="@string/confMas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/botonMasRep"
+        android:layout_alignBaseline="@+id/etRep"
+        android:layout_alignBottom="@+id/etRep"
+        android:layout_toEndOf="@+id/etRep" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="8"
+        android:id="@+id/etRep"
+        android:inputType="numberDecimal"
+        android:layout_alignBaseline="@+id/botonMenosRep"
+        android:layout_alignBottom="@+id/botonMenosRep"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="8"
+        android:id="@+id/etPeso"
+        android:inputType="numberDecimal"
+        android:layout_alignTop="@+id/botonMenosPeso"
+        android:layout_alignStart="@+id/etRep"
+        android:layout_toStartOf="@+id/botonMasPeso" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="8"
+        android:id="@+id/etSeries"
+        android:inputType="numberDecimal"
+        android:layout_alignTop="@+id/botonMenosSeries"
+        android:layout_toStartOf="@+id/botonMasRep" />
+
+    <Button
+        android:text="@string/confMas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/botonMasSeries"
+        android:layout_alignTop="@+id/etSeries"
+        android:layout_toEndOf="@+id/etSeries" />
 
     <TextView
-        android:id="@+id/confRepeticiones"
+        android:text="@string/confSeries"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/confRepeticiones"
-        android:layout_alignBaseline="@+id/confSeries"
-        android:layout_alignBottom="@+id/confSeries"
+        android:id="@+id/textView10"
+        android:layout_above="@+id/etSeries"
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:id="@+id/confPeso"
+        android:text="@string/confRepeticiones"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/textView11"
+        android:layout_above="@+id/botonMasRep"
+        android:layout_alignStart="@+id/textView10" />
+
+    <TextView
         android:text="@string/confPeso"
-        android:layout_marginEnd="48dp"
-        android:layout_alignBaseline="@+id/confRepeticiones"
-        android:layout_alignBottom="@+id/confRepeticiones"
-        android:layout_alignParentEnd="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView12"
+        android:layout_above="@+id/etPeso"
+        android:layout_alignStart="@+id/textView11" />
+
+    <Button
+        android:text="@string/confMenos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:id="@+id/botonMenosPeso"
+        android:layout_below="@+id/botonMenosRep"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="@string/confMas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/botonMasPeso"
+        android:layout_alignTop="@+id/etPeso"
+        android:layout_alignStart="@+id/botonMasRep" />
 
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/confTitulo"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/confSeries"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/confSeries"
-        android:layout_marginTop="47dp"
-        android:layout_below="@+id/confTitulo"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:id="@+id/confTitulo" />
 
     <Button
         android:text="@string/confGuardar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/confRepeticiones"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="67dp"
+        android:layout_toEndOf="@+id/textView11"
+        android:layout_marginStart="11dp"
+        android:layout_marginBottom="19dp"
         android:id="@+id/confBtnGuardar" />
-
 </RelativeLayout>
