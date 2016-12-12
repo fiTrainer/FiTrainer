@@ -1,5 +1,6 @@
 package com.fitrainer.upm.fitrainer;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -137,6 +138,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        if (id == R.id.action_calendar) {
+            Intent calendarIntent = new Intent(getApplicationContext(),CompactCalendar.class);
+            startActivity(calendarIntent);
+            //return true;
+        }
         if (id == R.id.action_settings) {
             return true;
         }
@@ -177,4 +183,6 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
