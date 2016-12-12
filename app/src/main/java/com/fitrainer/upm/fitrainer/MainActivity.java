@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
                 //TODO something when floating action menu second item clicked
                 Intent intent = new Intent(getApplicationContext(),CrearModificarMenu.class);
+                intent.putExtra("ORIGEN_PAGINA", "3");
                 startActivity(intent);
 
             }

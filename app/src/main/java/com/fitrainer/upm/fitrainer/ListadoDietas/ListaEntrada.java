@@ -8,16 +8,9 @@ public class ListaEntrada {
     private int idImagen;
     private String textoEncima;
     private String textoDebajo;
-    private Boolean marcado=false;
 
     public ListaEntrada(int idImagen, String textoEncima, String textoDebajo) {
         this.idImagen = idImagen;
-        this.textoEncima = textoEncima;
-        this.textoDebajo = textoDebajo;
-    }
-
-    public ListaEntrada(Boolean marcado, String textoEncima, String textoDebajo) {
-        this.marcado = marcado;
         this.textoEncima = textoEncima;
         this.textoDebajo = textoDebajo;
     }
@@ -34,7 +27,4 @@ public class ListaEntrada {
         return idImagen;
     }
 
-    public boolean get_marcado(){
-        return this.marcado;
-    }
 }

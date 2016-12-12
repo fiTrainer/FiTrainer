@@ -81,6 +81,9 @@
 
     <!-- Strings related to Configuracion -->
     <string name="misRutinas">Mis rutinas</string>
-
+    s
+    <!-- Strings related to Mis Rutinas -->
+    <string name="detalleListMenu">Detalle</string>
+    <string name="delete">Delete</string>
 
 </resources>
