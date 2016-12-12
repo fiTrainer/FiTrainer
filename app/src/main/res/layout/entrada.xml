@@ -3,42 +3,39 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="?android:attr/activatedBackgroundIndicator"
     android:weightSum="1">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:id="@+id/checkBox" />
-
     <LinearLayout
-        android:layout_width="255dp"
+        android:layout_width="227dp"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:layout_weight="0.50">
+        android:layout_weight="0.72">
 
         <TextView
-            android:id="@+id/textView_superior"
+            android:id="@+id/nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <TextView
-            android:id="@+id/textView_inferior"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/descripcion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-
-
 
     </LinearLayout>
 
     <Button
-        android:text="Button"
+        android:text="@string/detalleListMenu"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:id="@+id/button4" />
+        android:layout_height="91dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:id="@+id/botonDetalle"
+        android:layout_weight="0.18" />
 
 </LinearLayout>

@@ -1,74 +1,120 @@
 package com.fitrainer.upm.fitrainer;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import java.util.ArrayList;
-
-import android.text.InputType;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.app.Activity;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.util.SparseBooleanArray;
+import android.view.ActionMode;
+import android.view.MenuItem;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.fitrainer.upm.fitrainer.ListadoDietas.ListaEntrada;
-import com.fitrainer.upm.fitrainer.ListadoDietas.Lista_adaptador;
+import android.widget.AbsListView.MultiChoiceModeListener;
 
-public class ListadoMenus extends AppCompatActivity {
+import com.fitrainer.upm.fitrainer.ListadoDietas.ListViewAdapter;
+import com.fitrainer.upm.fitrainer.ListadoDietas.Menu;
 
-    private ListView lista;
+public class ListadoMenus extends Activity {
+
+    // Declare Variables
+    ListView list;
+    ListViewAdapter listviewadapter;
+    List<Menu> arrayMenus = new ArrayList<Menu>();
+    String[] id;
+    String[] nombre;
+    String[] descripcion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Get the view from listview_main.xml
         setContentView(R.layout.activity_listado_menus);
 
-        ArrayList<ListaEntrada> datos = new ArrayList<ListaEntrada>();
+        // Generate sample data into string arrays
+        id = new String[] { "1","2","3" };
 
-        datos.add(new ListaEntrada(false, "Menu Dia 1", "Menu del dia 1"));
-        datos.add(new ListaEntrada(false, "Menu Dia 2", "Menu del dia 1"));
-        datos.add(new ListaEntrada(false, "Menu Dia 3", "Menu del dia 1"));
-        datos.add(new ListaEntrada(false, "Menu Dia 4", "Menu del dia 1"));
-        datos.add(new ListaEntrada(false, "Menu Dia 5", "Menu del dia 1"));
+        nombre = new String[] { "Menu1", "Menu2", "Menu3"};
 
-        lista = (ListView) findViewById(R.id.ListView_listadoMenu);
-        lista.setAdapter(new Lista_adaptador(this, R.layout.entrada_list_menu, datos){
+        descripcion = new String[] { "Para adelgazar", "Para adelgazar en 1 mes",
+                "Para perder 5KG en una semana"};
+/*
+        flag = new int[] { R.drawable.china, R.drawable.india,
+                R.drawable.unitedstates, R.drawable.indonesia,
+                R.drawable.brazil, R.drawable.pakistan, R.drawable.nigeria,
+                R.drawable.bangladesh, R.drawable.russia, R.drawable.japan };*/
+
+        for (int i = 0; i < id.length; i++) {
+            Menu listadoMenu = new Menu(id[i], nombre[i], descripcion[i]);
+            arrayMenus.add(listadoMenu);
+        }
+
+
+        // Locate the ListView in listview_main.xml
+        list = (ListView) findViewById(R.id.ListView_listadoMenu);
+
+        // Pass results to ListViewAdapter Class
+        listviewadapter = new ListViewAdapter(this, R.layout.entrada,
+                arrayMenus);
+
+        // Binds the Adapter to the ListView
+        list.setAdapter(listviewadapter);
+        list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        // Capture ListView item click
+        list.setMultiChoiceModeListener(new MultiChoiceModeListener() {
+
             @Override
-            public void onEntrada(Object entrada, View view) {
-                if (entrada != null) {
-                    TextView texto_superior_entrada = (TextView) view.findViewById(R.id.textView_superior);
-                    if (texto_superior_entrada != null)
-                        texto_superior_entrada.setText(((ListaEntrada) entrada).get_textoEncima());
+            public void onItemCheckedStateChanged(ActionMode mode,
+                                                  int position, long id, boolean checked) {
+                // Capture total checked items
+                final int checkedCount = list.getCheckedItemCount();
+                // Set the CAB title according to total checked items
+                mode.setTitle(checkedCount + " Selected");
+                // Calls toggleSelection method from ListViewAdapter Class
+                listviewadapter.toggleSelection(position);
+            }
 
-                    TextView texto_inferior_entrada = (TextView) view.findViewById(R.id.textView_inferior);
-                    texto_inferior_entrada.setTextIsSelectable(true);
-                    texto_inferior_entrada.setRawInputType(InputType.TYPE_CLASS_TEXT);
-                    if (texto_inferior_entrada != null)
-                        texto_inferior_entrada.setText(((ListaEntrada) entrada).get_textoDebajo());
-
-                    /*ImageView imagen_entrada = (ImageView) view.findViewById(R.id.imageView_imagen);
-                    if (imagen_entrada != null)
-                        imagen_entrada.setImageResource(((ListaEntrada) entrada_menu).get_idImagen());*/
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        // Calls getSelectedIds method from ListViewAdapter Class
+                        SparseBooleanArray selected = listviewadapter
+                                .getSelectedIds();
+                        // Captures all selected ids with a loop
+                        for (int i = (selected.size() - 1); i >= 0; i--) {
+                            if (selected.valueAt(i)) {
+                                Menu selecteditem = listviewadapter
+                                        .getItem(selected.keyAt(i));
+                                // Remove selected items following the ids
+                                listviewadapter.remove(selecteditem);
+                            }
+                        }
+                        // Close CAB
+                        mode.finish();
+                        return true;
+                    default:
+                        return false;
                 }
             }
-        });
 
-        lista.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> pariente, View view, int posicion, long id) {
-                ListaEntrada elegido = (ListaEntrada) pariente.getItemAtPosition(posicion);
+            public boolean onCreateActionMode(ActionMode mode, android.view.Menu menu) {
+                mode.getMenuInflater().inflate(R.menu.listado_menus, menu);
+                return true;
+            }
 
-                CharSequence texto = "Seleccionado: " + elegido.get_textoDebajo();
-                Toast toast = Toast.makeText(ListadoMenus.this, texto, Toast.LENGTH_LONG);
-                toast.show();
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                // TODO Auto-generated method stub
+                listviewadapter.removeSelection();
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, android.view.Menu menu) {
+                // TODO Auto-generated method stub
+                return false;
             }
         });
-
     }
-
 }
