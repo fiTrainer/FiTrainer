@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="23dp"
         android:id="@+id/textView4"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/etNombre"
         android:layout_alignStart="@+id/textView3" />
 
     <TextView
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="22dp"
         android:id="@+id/textView5"
-        android:layout_below="@+id/editText3"
+        android:layout_below="@+id/etEmail"
         android:layout_alignStart="@+id/textView4" />
 
     <EditText
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText5"
+        android:id="@+id/etRepContrasenia"
         android:layout_alignBaseline="@+id/textView6"
         android:layout_alignBottom="@+id/textView6"
         android:layout_alignParentEnd="true" />
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/editText4"
+        android:id="@+id/etContrasenia"
         android:layout_alignBaseline="@+id/textView5"
         android:layout_alignBottom="@+id/textView5"
         android:layout_alignParentEnd="true" />
@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/editText3"
+        android:id="@+id/etEmail"
         android:layout_alignBaseline="@+id/textView4"
         android:layout_alignBottom="@+id/textView4"
         android:layout_alignParentEnd="true" />
@@ -72,37 +72,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="@string/regNombre"
         android:ems="10"
-        android:id="@+id/editText2"
+        android:id="@+id/etNombre"
         android:layout_alignBaseline="@+id/textView3"
         android:layout_alignBottom="@+id/textView3"
-        android:layout_alignParentEnd="true" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="@string/regNickName"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner"
+        android:id="@+id/spinnerEdad"
         android:layout_alignBottom="@+id/textView7"
         android:layout_alignParentEnd="true"
-        android:layout_alignStart="@+id/editText5" />
+        android:layout_alignStart="@+id/etRepContrasenia" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText6"
+        android:id="@+id/etAltura"
         android:layout_alignBaseline="@+id/textView8"
         android:layout_alignBottom="@+id/textView8"
         android:layout_alignParentEnd="true" />
@@ -112,7 +101,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/editText7"
+        android:id="@+id/etPeso"
         android:layout_alignBaseline="@+id/textView9"
         android:layout_alignBottom="@+id/textView9"
         android:layout_alignParentEnd="true" />
@@ -123,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
         android:id="@+id/textView9"
-        android:layout_below="@+id/editText6"
+        android:layout_below="@+id/etAltura"
         android:layout_alignStart="@+id/textView8" />
 
     <TextView
@@ -132,7 +121,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView6"
         android:layout_marginTop="19dp"
-        android:layout_below="@+id/editText4"
+        android:layout_below="@+id/etContrasenia"
         android:layout_alignStart="@+id/textView5" />
 
     <TextView
@@ -150,44 +139,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:id="@+id/textView3"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/etNickname"
         android:layout_alignStart="@+id/textView2" />
-
-    <Button
-        android:text="@string/regSubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/rbtMujer" />
-
-    <Button
-        android:text="@string/regReset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/textView3" />
-
-    <RadioButton
-        android:text="@string/regHombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rbtHombre"
-        android:layout_above="@+id/button2"
-        android:layout_alignStart="@+id/textView9"
-        android:layout_marginBottom="12dp"
-        android:onClick="onRadioButtonClicked" />
-
-    <RadioButton
-        android:text="@string/regMujer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/rbtMujer"
-        android:layout_alignBaseline="@+id/rbtHombre"
-        android:layout_alignBottom="@+id/rbtHombre"
-        android:layout_alignStart="@+id/editText7"
-        android:onClick="onRadioButtonClicked" />
 
     <TextView
         android:text="@string/regEdad"
@@ -195,6 +148,52 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView7"
         android:layout_marginTop="16dp"
-        android:layout_below="@+id/editText5"
+        android:layout_below="@+id/etRepContrasenia"
         android:layout_alignStart="@+id/textView6" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etNickname"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignParentEnd="true" />
+
+    <RadioButton
+        android:text="@string/regMujer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rbtMujer"
+        android:onClick="onRadioButtonClicked"
+        android:layout_below="@+id/etPeso"
+        android:layout_alignStart="@+id/etPeso"
+        android:layout_marginTop="12dp" />
+
+    <RadioButton
+        android:text="@string/regHombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rbtHombre"
+        android:onClick="onRadioButtonClicked"
+        android:layout_alignBaseline="@+id/rbtMujer"
+        android:layout_alignBottom="@+id/rbtMujer"
+        android:layout_alignStart="@+id/textView9" />
+
+    <Button
+        android:text="@string/regReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnReset"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textView3" />
+
+    <Button
+        android:text="@string/regSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnModReg"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/rbtMujer" />
 </RelativeLayout>

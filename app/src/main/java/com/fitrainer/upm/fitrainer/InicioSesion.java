@@ -104,6 +104,7 @@ public class InicioSesion extends AppCompatActivity implements LoaderCallbacks<C
         button.setOnClickListener(new OnClickListener() {
             public void onClick(View arg0) {
                 Intent intent = new Intent(getApplicationContext(),RegistroModificacion.class);
+                intent.putExtra("VIENE_DE_LOGIN",true);
                 startActivity(intent);
             }
         });

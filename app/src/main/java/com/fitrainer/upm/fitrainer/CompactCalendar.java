@@ -52,10 +52,10 @@ public class CompactCalendar extends AppCompatActivity {
         compactCalendar.setUseThreeLetterAbbreviation(true);
         compactCalendar.setLocale(TimeZone.getDefault(),localeES);
 
-        Event ev1 = new Event(Color.BLACK, 1481623200000L, "Hombros");
-        Event ev2 = new Event(Color.RED, 1481623200000L, "Espalda");
-        Event ev3 = new Event(Color.YELLOW, 1481623200000L, "Tripceps");
-        Event ev4 = new Event(Color.GREEN, 1481623200000L, "Cardio");
+        Event ev1 = new Event(Color.BLACK, 1481738042000L, "Hombros");
+        Event ev2 = new Event(Color.RED, 1481738042000L, "Espalda");
+        Event ev3 = new Event(Color.YELLOW, 1481738042000L, "Tripceps");
+        Event ev4 = new Event(Color.GREEN, 1481738042000L, "Cardio");
         compactCalendar.addEvent(ev1,true);
         compactCalendar.addEvent(ev2,true);
         compactCalendar.addEvent(ev3,true);

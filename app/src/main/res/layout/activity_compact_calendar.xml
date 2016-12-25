@@ -31,7 +31,7 @@
         app:compactCalendarBackgroundColor="#fff"
         app:compactCalendarTextColor="#000"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#999"
-        app:compactCalendarCurrentDayBackgroundColor="#666"
+        app:compactCalendarCurrentDayBackgroundColor="#3aabf7"
         app:compactCalendarMultiEventIndicatorColor="#987456"
         android:layout_below="@+id/monthTextView"
         android:layout_alignParentStart="true"

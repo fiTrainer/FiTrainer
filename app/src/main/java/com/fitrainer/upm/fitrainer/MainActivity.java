@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -106,9 +105,8 @@ public class MainActivity extends AppCompatActivity
         floatingActionButton3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO something when floating action menu second item clicked
-                Intent intent = new Intent(getApplicationContext(),ListadoMenus.class);
-                startActivity(intent);
-
+                Intent calendarIntent = new Intent(getApplicationContext(),CompactCalendar.class);
+                startActivity(calendarIntent);
             }
         });
 
@@ -161,6 +159,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_mi_perfil) {
             // Handle the camera action
             Intent intent = new Intent(getApplicationContext(),RegistroModificacion.class);
+            intent.putExtra("VIENE_DE_LOGIN",false);
             startActivity(intent);
 
         } else if (id == R.id.nav_mis_rutinas) {
@@ -169,6 +168,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_mis_dietas) {
+            Intent intent = new Intent(getApplicationContext(),ListadoMenus.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_asignar_usuario) {
 
