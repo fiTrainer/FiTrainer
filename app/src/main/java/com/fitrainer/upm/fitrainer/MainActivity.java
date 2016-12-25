@@ -1,6 +1,5 @@
 package com.fitrainer.upm.fitrainer;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -168,7 +167,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_mis_dietas) {
-            Intent intent = new Intent(getApplicationContext(),ListadoMenus.class);
+            Intent intent = new Intent(getApplicationContext(),MisMenus.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_asignar_usuario) {

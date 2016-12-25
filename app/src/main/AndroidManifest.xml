@@ -36,7 +36,7 @@
         <activity android:name=".ConfigurarEjercicios" />
         <activity android:name=".MisRutinas" />
         <activity android:name=".CrearModificarMenu" />
-        <activity android:name=".ListadoMenus"></activity>
+        <activity android:name=".MisMenus"></activity>
         <activity android:name=".CompactCalendar"></activity>
     </application>
 

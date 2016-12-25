@@ -15,7 +15,7 @@ import android.widget.AbsListView.MultiChoiceModeListener;
 import com.fitrainer.upm.fitrainer.ListadoDietas.ListViewAdapter;
 import com.fitrainer.upm.fitrainer.ListadoDietas.Menu;
 
-public class ListadoMenus extends Activity {
+public class MisMenus extends Activity {
 
     // Declare Variables
     ListView list;

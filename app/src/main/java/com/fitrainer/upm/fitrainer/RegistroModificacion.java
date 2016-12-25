@@ -33,7 +33,7 @@ public class RegistroModificacion extends AppCompatActivity {
                 this, android.R.layout.simple_spinner_item, age);
         spinnerArrayAdapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item );
 
-        Spinner spinner = (Spinner)findViewById(R.id.spinnerEdad);
+       final Spinner spinner = (Spinner)findViewById(R.id.spinnerEdad);
         spinner.setAdapter(spinnerArrayAdapter);
 
 
@@ -60,6 +60,7 @@ public class RegistroModificacion extends AppCompatActivity {
             etEmail.setText(user.getEmail());
             etContrasenia.setText(user.getContrasenia());
             etRepContrasenia.setText(user.getContrasenia());
+            spinner.setSelection(user.getEdad());
             etAltura.setText( new Double(user.getAltura()).toString());
             etPeso.setText( new Double(user.getPeso()).toString());
             if(user.getSexo()){
@@ -95,6 +96,7 @@ public class RegistroModificacion extends AppCompatActivity {
                     etEmail.setText(user.getEmail());
                     etContrasenia.setText(user.getContrasenia());
                     etRepContrasenia.setText(user.getContrasenia());
+                    spinner.setSelection(user.getEdad());
                     etAltura.setText( new Double(user.getAltura()).toString());
                     etPeso.setText( new Double(user.getPeso()).toString());
                     if(user.getSexo()){
