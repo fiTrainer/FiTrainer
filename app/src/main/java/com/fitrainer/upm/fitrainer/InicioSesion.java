@@ -33,6 +33,8 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,6 +99,13 @@ public class InicioSesion extends AppCompatActivity implements LoaderCallbacks<C
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
 
+        //PARA EL SALT
+        int saltLength = 16; // same size as key output
+
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[saltLength];
+        random.nextBytes(salt);
+
 
         //Para el boton de Registrarse
         Button button = (Button)findViewById(R.id.button3);
@@ -108,6 +117,7 @@ public class InicioSesion extends AppCompatActivity implements LoaderCallbacks<C
                 startActivity(intent);
             }
         });
+
 
     }
 

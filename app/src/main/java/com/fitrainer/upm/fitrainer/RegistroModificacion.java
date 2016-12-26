@@ -10,6 +10,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +75,17 @@ public class RegistroModificacion extends AppCompatActivity {
         //Para el boton de Registrarse o Modificar
         btnModReg.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                RegistroModificacion.super.onBackPressed();
+                if(extras.getBoolean("VIENE_DE_LOGIN")){
+                    if(etContrasenia.getText().toString().equals(etRepContrasenia.getText().toString())){
+
+                    }else{
+
+                    }
+                }else{
+                    RegistroModificacion.super.onBackPressed();
+                }
+
+
             }
         });
 
@@ -134,6 +145,24 @@ public class RegistroModificacion extends AppCompatActivity {
                 break;
 
 
+        }
+    }
+    //Obtener SHA-256 de un String
+    private String sha256(String base) {
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
         }
     }
 }
