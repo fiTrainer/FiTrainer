@@ -1,7 +1,9 @@
 package com.fitrainer.upm.fitrainer;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -75,13 +77,87 @@ public class RegistroModificacion extends AppCompatActivity {
         //Para el boton de Registrarse o Modificar
         btnModReg.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                if(extras.getBoolean("VIENE_DE_LOGIN")){
-                    if(etContrasenia.getText().toString().equals(etRepContrasenia.getText().toString())){
+                boolean validar=true;
+                if(etNombre.getText().toString().matches("")){
+                    etNombre.setError("Debe ingresar un Nombre");
+                    validar=false;
+                }else{
+                    //Aqui de momento no se hace nada mas
 
+                }
+                if(etEmail.getText().toString().matches("")){
+                    etEmail.setError("Debe ingresar un Email");
+                    validar=false;
+                }else{
+                    if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+"))
+                    {
+                        etEmail.setError("Email no valido");
+                        validar=false;
+                    }
+                }
+                if(etContrasenia.getText().toString().matches("")){
+                    etContrasenia.setError("Debe ingresar una contraseña");
+                    validar=false;
+                }else{
+                    //Aqui de momento no se hace nada mas
+
+                }
+                if(etRepContrasenia.getText().toString().matches("")){
+                    etRepContrasenia.setError("Debe repetir la contraseña");
+                    validar=false;
+                }else{
+                    //Aqui de momento no se hace nada mas
+                }
+                if(!etRepContrasenia.getText().toString().matches("")&&!etContrasenia.getText().toString().matches("")){
+                    if(!etContrasenia.getText().toString().matches(etRepContrasenia.getText().toString())){
+                        validar=false;
+                        etRepContrasenia.setError("Las contraseñas no concuerda");
+                    }
+                }
+                if(etAltura.getText().toString().matches("")){
+                    etAltura.setError("Debe insertar su altura");
+                    validar=false;
+                }else{
+                    //Aqui de momento no se hace nada mas
+                }
+                if(etPeso.getText().toString().matches("")){
+                    etPeso.setError("Debe insertar su peso");
+                    validar=false;
+                }else{
+                    //Aqui de momento no se hace nada mas
+                }
+                if(spinner.getSelectedItemPosition()==0){
+                    View selectedView = spinner.getSelectedView();
+                    TextView selectedTextView = (TextView) selectedView;
+                    selectedTextView.setError("Debe seleccionar una edad");
+                    validar=false;
+                }
+                if(!rbMujer.isChecked()&&!rbHombre.isChecked()){
+                    rbMujer.setError("Debe seleccionar un sexo");
+                    rbHombre.setError("Debe seleccionar un sexo");
+                    validar=false;
+                }else{
+                    rbMujer.setError(null);
+                    rbHombre.setError(null);
+                }
+                if(extras.getBoolean("VIENE_DE_LOGIN")){
+                    if(etNickname.getText().toString().matches("")){
+                        etNickname.setError("Debe ingresar un Nickname");
+                        validar=false;
                     }else{
+                        //Se debe buscar en la base de datos si existe ese nickname
+                    }
+                    //Si valido hago insert
+                    if(validar){
+                        //Si se ha validado, entonces insertamos en BBDD
 
                     }
                 }else{
+                    //Si se valida, entonces hago update
+                    if(validar){
+                        //Si se ha validado, entonces update en BBDD
+
+                    }
                     RegistroModificacion.super.onBackPressed();
                 }
 
@@ -100,6 +176,9 @@ public class RegistroModificacion extends AppCompatActivity {
                     etRepContrasenia.setText("");
                     etAltura.setText("");
                     etPeso.setText("");
+                    spinner.setSelection(0);
+                    rbHombre.setChecked(false);
+                    rbMujer.setChecked(false);
                 }else{
                     etNickname.setEnabled(false);
                     etNickname.setText(user.getNickname());
@@ -125,9 +204,6 @@ public class RegistroModificacion extends AppCompatActivity {
 
     public void onRadioButtonClicked(View v)
     {
-
-
-
         boolean  checked = ((RadioButton) v).isChecked();
         RadioButton rbMujer = (RadioButton) findViewById(R.id.rbtMujer);
         RadioButton rbHombre= (RadioButton) findViewById(R.id.rbtHombre);
