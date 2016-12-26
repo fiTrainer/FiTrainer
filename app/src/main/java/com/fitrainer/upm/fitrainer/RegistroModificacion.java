@@ -1,5 +1,6 @@
 package com.fitrainer.upm.fitrainer;
 
+import android.app.ProgressDialog;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,12 +12,21 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.security.MessageDigest;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import com.loopj.android.http.*;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import cz.msebera.android.httpclient.Header;
 
 public class RegistroModificacion extends AppCompatActivity {
+    ProgressDialog prgDialog;
 
 
     @Override
@@ -24,6 +34,9 @@ public class RegistroModificacion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_modificacion);
         final Bundle extras = getIntent().getExtras();
+        prgDialog = new ProgressDialog(this);
+        prgDialog.setMessage("Por favor espere...");
+        prgDialog.setCancelable(false);
 
 
         //Rellenamos el spinner
@@ -78,11 +91,13 @@ public class RegistroModificacion extends AppCompatActivity {
         btnModReg.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 boolean validar=true;
+                RequestParams params = new RequestParams();
                 if(etNombre.getText().toString().matches("")){
                     etNombre.setError("Debe ingresar un Nombre");
                     validar=false;
                 }else{
-                    //Aqui de momento no se hace nada mas
+                    //Agregar campos a los parametros de la llamada
+                    params.put("nombre",etNombre.getText());
 
                 }
                 if(etEmail.getText().toString().matches("")){
@@ -93,6 +108,10 @@ public class RegistroModificacion extends AppCompatActivity {
                     {
                         etEmail.setError("Email no valido");
                         validar=false;
+                    }
+                    else{
+                        //Agregar campos a los parametros de la llamada
+                        params.put("email",etEmail.getText());
                     }
                 }
                 if(etContrasenia.getText().toString().matches("")){
@@ -113,24 +132,40 @@ public class RegistroModificacion extends AppCompatActivity {
                         validar=false;
                         etRepContrasenia.setError("Las contraseñas no concuerda");
                     }
+                    else{
+                        //Agregar campos a los parametros de la llamada
+                        int saltLength = 16; // same size as key output
+                        SecureRandom random = new SecureRandom();
+                        byte[] salt = new byte[saltLength];
+                        random.nextBytes(salt);
+                        String generatedPassword= sha256(etContrasenia.getText().toString(),salt);
+                        params.put("password",generatedPassword);
+                        params.put("salt",salt.toString());
+                        params.put("esEntrenador",0);
+                    }
                 }
                 if(etAltura.getText().toString().matches("")){
                     etAltura.setError("Debe insertar su altura");
                     validar=false;
                 }else{
-                    //Aqui de momento no se hace nada mas
+                    //Agregar campos a los parametros de la llamada
+                    params.put("altura",etAltura.getText());
                 }
                 if(etPeso.getText().toString().matches("")){
                     etPeso.setError("Debe insertar su peso");
                     validar=false;
                 }else{
-                    //Aqui de momento no se hace nada mas
+                    //Agregar campos a los parametros de la llamada
+                    params.put("peso",etPeso.getText());
                 }
                 if(spinner.getSelectedItemPosition()==0){
                     View selectedView = spinner.getSelectedView();
                     TextView selectedTextView = (TextView) selectedView;
                     selectedTextView.setError("Debe seleccionar una edad");
                     validar=false;
+                }else{
+                    //Agregar campos a los parametros de la llamada
+                    params.put("edad",spinner.getSelectedItem().toString());
                 }
                 if(!rbMujer.isChecked()&&!rbHombre.isChecked()){
                     rbMujer.setError("Debe seleccionar un sexo");
@@ -146,10 +181,15 @@ public class RegistroModificacion extends AppCompatActivity {
                         validar=false;
                     }else{
                         //Se debe buscar en la base de datos si existe ese nickname
+                        //Agregar campos a los parametros de la llamada
+                        params.put("nickname",etNickname.getText());
                     }
                     //Si valido hago insert
                     if(validar){
                         //Si se ha validado, entonces insertamos en BBDD
+                        params.put("accion","registro");
+                        invokeWS(params);
+
 
                     }
                 }else{
@@ -224,9 +264,10 @@ public class RegistroModificacion extends AppCompatActivity {
         }
     }
     //Obtener SHA-256 de un String
-    private String sha256(String base) {
+    private String sha256(String base,byte[]salt) {
         try{
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            digest.update(salt);
             byte[] hash = digest.digest(base.getBytes("UTF-8"));
             StringBuffer hexString = new StringBuffer();
 
@@ -240,5 +281,59 @@ public class RegistroModificacion extends AppCompatActivity {
         } catch(Exception ex){
             throw new RuntimeException(ex);
         }
+    }
+
+    public void invokeWS(RequestParams params){
+        // Show Progress Dialog
+        prgDialog.show();
+        // Make RESTful webservice call using AsyncHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(getString(R.string.serverURL),params ,new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // Hide Progress Dialog
+                prgDialog.hide();
+                try {
+                    // JSON Object
+                    System.out.println(new String(response));
+                    JSONObject obj = new JSONObject(new String(response));
+                    // When the JSON response has status boolean value assigned with true
+                    if(obj.getBoolean("status")){
+                        // Set Default Values for Edit View controls
+                        // Display successfully registered message using Toast
+                        Toast.makeText(getApplicationContext(), obj.getString("msg"), Toast.LENGTH_LONG).show();
+                    }
+                    // Else display error message
+                    else{
+                        //errorMsg.setText(obj.getString("error_msg"));
+                        Toast.makeText(getApplicationContext(),obj.getString("Error") , Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                prgDialog.hide();
+                // When Http response code is '404'
+                if(statusCode == 404){
+                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                }
+                // When Http response code is '500'
+                else if(statusCode == 500) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                }
+                //When user is already registered
+                else if(statusCode == 306){
+                    Toast.makeText(getApplicationContext(), "El usuario ya se encuentra registrado", Toast.LENGTH_LONG).show();
+                }
+                // When Http response code other than 404, 500
+                else{
+                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

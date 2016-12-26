@@ -31,5 +31,6 @@ dependencies {
     compile 'com.github.clans:fab:1.6.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.sundeepk:compact-calendar-view:1.9.5'
+    compile 'com.loopj.android:android-async-http:1.4.9'
     testCompile 'junit:junit:4.12'
 }
