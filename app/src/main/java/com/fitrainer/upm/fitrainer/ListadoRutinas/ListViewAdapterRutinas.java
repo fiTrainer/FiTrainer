@@ -1,38 +1,39 @@
-package com.fitrainer.upm.fitrainer.ListadoDietas;
+package com.fitrainer.upm.fitrainer.ListadoRutinas;
 
 /**
  * Created by abel on 11/12/16.
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import java.util.List;
 
-import android.content.Context;
-import android.widget.ArrayAdapter;
-
-import com.fitrainer.upm.fitrainer.ConfigurarEjercicios;
 import com.fitrainer.upm.fitrainer.CrearModificarMenu;
+import com.fitrainer.upm.fitrainer.DetalleRutina;
+import com.fitrainer.upm.fitrainer.ListadoDietas.Menu;
 import com.fitrainer.upm.fitrainer.R;
 
-public class ListViewAdapter extends ArrayAdapter<Menu> {
+import java.util.List;
+
+public class ListViewAdapterRutinas extends ArrayAdapter<Menu> {
     // Declare Variables
     Context context;
     LayoutInflater inflater;
-    List<Menu> arrayMenus;
+    List<Menu> arrayRutinas;
     private SparseBooleanArray mSelectedItemsIds;
 
-    public ListViewAdapter(Context context, int resourceId,
-                           List<Menu> arrayMenus) {
+    public ListViewAdapterRutinas(Context context, int resourceId,
+                                  List<Menu> arrayMenus) {
         super(context, resourceId, arrayMenus);
         mSelectedItemsIds = new SparseBooleanArray();
         this.context = context;
-        this.arrayMenus = arrayMenus;
+        this.arrayRutinas = arrayMenus;
         inflater = LayoutInflater.from(context);
     }
 
@@ -60,8 +61,8 @@ public class ListViewAdapter extends ArrayAdapter<Menu> {
         }
         // Capture position and set to the TextViews
        // holder.id.setText(arrayMenus.get(position).getId());
-        holder.nombre.setText(arrayMenus.get(position).getNombre());
-        holder.descripcion.setText(arrayMenus.get(position).getDescripcion());
+        holder.nombre.setText(arrayRutinas.get(position).getNombre());
+        holder.descripcion.setText(arrayRutinas.get(position).getDescripcion());
 
 
         //FUNCIONA
@@ -71,9 +72,8 @@ public class ListViewAdapter extends ArrayAdapter<Menu> {
                 @Override
                 public void onClick(View v) {
                     //when play is clicked show stop button and hide play button
-                    Intent intent = new Intent(context,CrearModificarMenu.class);
-                    intent.putExtra("ORIGEN_PAGINA", "1");
-                    intent.putExtra("NOMBRE_MENU", arrayMenus.get(pos).getNombre());
+                    Intent intent = new Intent(context,DetalleRutina.class);
+                    intent.putExtra("NOMBRE_RUTINA", arrayRutinas.get(pos).getNombre());
                     context.startActivity(intent);
                 }
             });
@@ -83,12 +83,12 @@ public class ListViewAdapter extends ArrayAdapter<Menu> {
 
     @Override
     public void remove(Menu object) {
-        arrayMenus.remove(object);
+        arrayRutinas.remove(object);
         notifyDataSetChanged();
     }
 
     public List<Menu> getWorldPopulation() {
-        return arrayMenus;
+        return arrayRutinas;
     }
 
     public void toggleSelection(int position) {

@@ -1,33 +1,24 @@
 package com.fitrainer.upm.fitrainer;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.AbsListView;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.fitrainer.upm.fitrainer.ListadoDietas.ListViewAdapter;
+import com.fitrainer.upm.fitrainer.ListadoRutinas.ListViewAdapterRutinas;
 import com.fitrainer.upm.fitrainer.ListadoDietas.Menu;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+
 public class MisRutinas extends Activity {
 
     // Declare Variables
     ListView list;
-    ListViewAdapter listviewadapter;
+    ListViewAdapterRutinas listviewadapter;
     List<Menu> arrayMenus = new ArrayList<Menu>();
     String[] id;
     String[] nombre;
@@ -61,8 +52,8 @@ public class MisRutinas extends Activity {
         // Locate the ListView in listview_main.xml
         list = (ListView) findViewById(R.id.ListView_listadoMenu);
 
-        // Pass results to ListViewAdapter Class
-        listviewadapter = new ListViewAdapter(this, R.layout.entrada,
+        // Pass results to ListViewAdapterRutinas Class
+        listviewadapter = new ListViewAdapterRutinas(this, R.layout.entrada,
                 arrayMenus);
 
         // Binds the Adapter to the ListView
@@ -78,7 +69,7 @@ public class MisRutinas extends Activity {
                 final int checkedCount = list.getCheckedItemCount();
                 // Set the CAB title according to total checked items
                 mode.setTitle(checkedCount + " Selected");
-                // Calls toggleSelection method from ListViewAdapter Class
+                // Calls toggleSelection method from ListViewAdapterRutinas Class
                 listviewadapter.toggleSelection(position);
             }
 
@@ -86,7 +77,7 @@ public class MisRutinas extends Activity {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.delete:
-                        // Calls getSelectedIds method from ListViewAdapter Class
+                        // Calls getSelectedIds method from ListViewAdapterRutinas Class
                         SparseBooleanArray selected = listviewadapter
                                 .getSelectedIds();
                         // Captures all selected ids with a loop

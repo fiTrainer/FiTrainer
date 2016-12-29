@@ -1,6 +1,5 @@
 package com.fitrainer.upm.fitrainer;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.widget.ListView;
@@ -12,14 +11,14 @@ import java.util.List;
 
 import android.widget.AbsListView.MultiChoiceModeListener;
 
-import com.fitrainer.upm.fitrainer.ListadoDietas.ListViewAdapter;
+import com.fitrainer.upm.fitrainer.ListadoDietas.ListViewAdapterMenu;
 import com.fitrainer.upm.fitrainer.ListadoDietas.Menu;
 
 public class MisMenus extends Activity {
 
     // Declare Variables
     ListView list;
-    ListViewAdapter listviewadapter;
+    ListViewAdapterMenu listviewadapter;
     List<Menu> arrayMenus = new ArrayList<Menu>();
     String[] id;
     String[] nombre;
@@ -53,8 +52,8 @@ public class MisMenus extends Activity {
         // Locate the ListView in listview_main.xml
         list = (ListView) findViewById(R.id.ListView_listadoMenu);
 
-        // Pass results to ListViewAdapter Class
-        listviewadapter = new ListViewAdapter(this, R.layout.entrada,
+        // Pass results to ListViewAdapterMenu Class
+        listviewadapter = new ListViewAdapterMenu(this, R.layout.entrada,
                 arrayMenus);
 
         // Binds the Adapter to the ListView
@@ -70,7 +69,7 @@ public class MisMenus extends Activity {
                 final int checkedCount = list.getCheckedItemCount();
                 // Set the CAB title according to total checked items
                 mode.setTitle(checkedCount + " Selected");
-                // Calls toggleSelection method from ListViewAdapter Class
+                // Calls toggleSelection method from ListViewAdapterMenu Class
                 listviewadapter.toggleSelection(position);
             }
 
@@ -78,7 +77,7 @@ public class MisMenus extends Activity {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.delete:
-                        // Calls getSelectedIds method from ListViewAdapter Class
+                        // Calls getSelectedIds method from ListViewAdapterMenu Class
                         SparseBooleanArray selected = listviewadapter
                                 .getSelectedIds();
                         // Captures all selected ids with a loop

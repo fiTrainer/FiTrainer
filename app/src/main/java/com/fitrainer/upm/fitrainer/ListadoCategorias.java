@@ -3,19 +3,15 @@ package com.fitrainer.upm.fitrainer;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -73,7 +69,7 @@ public class ListadoCategorias extends AppCompatActivity implements AdapterView.
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Categoria item = (Categoria) parent.getItemAtPosition(position);
 
-        Intent intent = new Intent(this, DetalleCategoria.class);
+        Intent intent = new Intent(this, DetalleListEjerc.class);
         intent.putExtra("tipoEjercicio", item.getNombre());
         startActivity(intent);
     }

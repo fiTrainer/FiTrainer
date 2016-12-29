@@ -88,6 +88,10 @@
     <string name="detalleListMenu">Detalle</string>
     <string name="delete">Delete</string>
 
+    <!-- Strings related to Detalle Rutina -->
+    <string name="btnModificar">Modificar</string>
+
+
     <!-- Strings related to Asignar Usuarios -->
     <string name="asignNickname">Nickname</string>
     <string name="asignNombre">Nombre</string>

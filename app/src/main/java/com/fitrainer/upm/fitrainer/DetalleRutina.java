@@ -1,11 +1,10 @@
 package com.fitrainer.upm.fitrainer;
 
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,7 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DetalleCategoria extends AppCompatActivity {
+public class DetalleRutina extends AppCompatActivity {
+
     List<String> groupList;
     ArrayList<Ejercicio> childList;
     Map<String, ArrayList<Ejercicio>> laptopCollection;
@@ -24,32 +24,19 @@ public class DetalleCategoria extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detalle_categoria);
+        setContentView(R.layout.activity_detalle_rutina);
 
-        TextView tipoEjercicio = (TextView) findViewById(R.id.misRutinas);
+        TextView tipoEjercicio = (TextView) findViewById(R.id.tvNomRut);
         Bundle bundle = getIntent().getExtras();
-        tipoEjercicio.setText(bundle.getString("tipoEjercicio"));
+        tipoEjercicio.setText(bundle.getString("NOMBRE_RUTINA"));
 
-
-
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         createGroupList();
 
         createCollection();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
 
         // Lista Expandible
-        expListView = (ExpandableListView) findViewById(R.id.laptop_list);
+        expListView = (ExpandableListView) findViewById(R.id.list_rutina);
         final ExpandableListAdapter expListAdapter = new ExpandableListAdapter(
                 this, groupList, laptopCollection,1);
         expListView.setAdapter(expListAdapter);
@@ -66,6 +53,17 @@ public class DetalleCategoria extends AppCompatActivity {
                         .show();
 
                 return true;
+            }
+        });
+
+
+        //Para el boton de Modificar
+        Button botonModificar = (Button) findViewById(R.id.btnModDetRut);
+
+        botonModificar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                Intent intent = new Intent(getApplicationContext(),ListadoCategorias.class);
+                startActivity(intent);
             }
         });
     }
@@ -113,5 +111,6 @@ public class DetalleCategoria extends AppCompatActivity {
         for (Ejercicio model : ejerciciosModelos)
             childList.add(model);
     }
+
 
 }

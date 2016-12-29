@@ -26,7 +26,7 @@
         </activity>
         <activity android:name=".ListadoCategorias" />
         <activity
-            android:name=".DetalleCategoria"
+            android:name=".DetalleListEjerc"
             android:label="@string/title_activity_detalle_categoria"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -39,7 +39,8 @@
         <activity android:name=".CrearModificarMenu" />
         <activity android:name=".MisMenus" />
         <activity android:name=".CompactCalendar" />
-        <activity android:name=".AsignarUsuario"></activity>
+        <activity android:name=".AsignarUsuario" />
+        <activity android:name=".DetalleRutina"></activity>
     </application>
 
 </manifest>
