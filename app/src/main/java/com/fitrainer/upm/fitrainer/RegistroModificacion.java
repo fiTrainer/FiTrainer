@@ -1,10 +1,8 @@
 package com.fitrainer.upm.fitrainer;
 
 import android.app.ProgressDialog;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +16,7 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+
 import com.loopj.android.http.*;
 
 import org.json.JSONException;
@@ -130,7 +129,7 @@ public class RegistroModificacion extends AppCompatActivity {
                 if(!etRepContrasenia.getText().toString().matches("")&&!etContrasenia.getText().toString().matches("")){
                     if(!etContrasenia.getText().toString().matches(etRepContrasenia.getText().toString())){
                         validar=false;
-                        etRepContrasenia.setError("Las contraseñas no concuerda");
+                        etRepContrasenia.setError("Las contraseñas no concuerdan");
                     }
                     else{
                         //Agregar campos a los parametros de la llamada
@@ -174,6 +173,12 @@ public class RegistroModificacion extends AppCompatActivity {
                 }else{
                     rbMujer.setError(null);
                     rbHombre.setError(null);
+                    if(rbHombre.isChecked()){
+                        params.put("sexo",0);
+                    }else{
+                        params.put("sexo",1);
+                    }
+
                 }
                 if(extras.getBoolean("VIENE_DE_LOGIN")){
                     if(etNickname.getText().toString().matches("")){

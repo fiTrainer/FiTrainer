@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FiTrainer</string>
 
-    <string name="serverURL">http://192.168.1.105/fitrainer/RedeemAPI.php</string>
+    <string name="serverURL">http://10.0.2.2/fitrainer/RedeemAPI.php</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -16,7 +16,7 @@
     <string name="inicio_sesion">Inicio Sesión</string>
     <string name="desconectar">Desconectar</string>
     <string name="title_activity_listado_categorias">ListadoCategorias</string>
-
+    pero
 
     <string name="btnHombro">Hombro</string>
     <string name="btnPierna">Pierna</string>
@@ -83,9 +83,15 @@
 
     <!-- Strings related to Configuracion -->
     <string name="misRutinas">Mis rutinas</string>
-    s
+
     <!-- Strings related to Mis Rutinas -->
     <string name="detalleListMenu">Detalle</string>
     <string name="delete">Delete</string>
+
+    <!-- Strings related to Asignar Usuarios -->
+    <string name="asignNickname">Nickname</string>
+    <string name="asignNombre">Nombre</string>
+    <string name="asignEmail">Email</string>
+    <string name="asignEdad">Edad</string>
 
 </resources>

@@ -44,7 +44,7 @@ public class MisRutinas extends Activity {
 
         nombre = new String[] { "Rutina1", "Rutina2", "Rutina3"};
 
-        descripcion = new String[] { "Para adelgazar", "Para adelgazar en 1 mes",
+        descripcion = new String[] { "Para adelgazar \nPara adelgazar\nPara adelgazar", "Para adelgazar en 1 mes",
                 "Para perder 5KG en una semana"};
 /*
         flag = new int[] { R.drawable.china, R.drawable.india,
