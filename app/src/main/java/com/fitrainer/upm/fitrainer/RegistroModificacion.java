@@ -137,10 +137,11 @@ public class RegistroModificacion extends AppCompatActivity {
                         SecureRandom random = new SecureRandom();
                         byte[] salt = new byte[saltLength];
                         random.nextBytes(salt);
-                        String generatedPassword= sha256(etContrasenia.getText().toString(),salt);
+                        String pass=etContrasenia.getText().toString()+salt;
+                        String generatedPassword= sha256(pass);
                         params.put("password",generatedPassword);
                         params.put("salt",salt.toString());
-                        params.put("esEntrenador",0);
+
                     }
                 }
                 if(etAltura.getText().toString().matches("")){
@@ -192,6 +193,7 @@ public class RegistroModificacion extends AppCompatActivity {
                     //Si valido hago insert
                     if(validar){
                         //Si se ha validado, entonces insertamos en BBDD
+                        params.put("esEntrenador",0);
                         params.put("accion","registro");
                         invokeWS(params);
 
@@ -200,8 +202,11 @@ public class RegistroModificacion extends AppCompatActivity {
                 }else{
                     //Si se valida, entonces hago update
                     if(validar){
-                        //Si se ha validado, entonces update en BBDD
-
+                            //Si se ha validado, entonces update en BBDD
+                        params.put("nickname",etNickname.getText());
+                        params.put("esEntrenador",0);
+                        params.put("accion","modificarUsuario");
+                        invokeWS(params);
                     }
                     RegistroModificacion.super.onBackPressed();
                 }
@@ -269,10 +274,9 @@ public class RegistroModificacion extends AppCompatActivity {
         }
     }
     //Obtener SHA-256 de un String
-    private String sha256(String base,byte[]salt) {
+    private String sha256(String base) {
         try{
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.update(salt);
             byte[] hash = digest.digest(base.getBytes("UTF-8"));
             StringBuffer hexString = new StringBuffer();
 

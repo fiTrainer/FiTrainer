@@ -47,6 +47,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="btnRegistrarse">Registrarse</string>
+
 
     <!-- Strings related to registro/modificacion -->
     <string name="regNickName">Usuario</string>
