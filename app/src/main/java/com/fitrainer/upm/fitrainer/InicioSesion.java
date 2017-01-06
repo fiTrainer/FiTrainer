@@ -2,40 +2,48 @@
         import android.app.Activity;
         import android.app.ProgressDialog;
         import android.content.Intent;
+        import android.content.SharedPreferences;
+        import android.net.Uri;
+        import android.os.AsyncTask;
         import android.os.Bundle;
+        import android.util.Log;
         import android.view.View;
         import android.widget.Button;
         import android.widget.EditText;
         import android.widget.Toast;
-
-        import com.fitrainer.upm.fitrainer.R;
         import com.fitrainer.upm.fitrainer.Sesion.AlertDialogManager;
         import com.fitrainer.upm.fitrainer.Sesion.SessionManagement;
-        import com.loopj.android.http.AsyncHttpClient;
-        import com.loopj.android.http.AsyncHttpResponseHandler;
-        import com.loopj.android.http.RequestParams;
-
         import org.json.JSONException;
         import org.json.JSONObject;
-
-        import cz.msebera.android.httpclient.Header;
+        import java.io.BufferedReader;
+        import java.io.BufferedWriter;
+        import java.io.IOException;
+        import java.io.InputStream;
+        import java.io.InputStreamReader;
+        import java.io.OutputStream;
+        import java.io.OutputStreamWriter;
+        import java.net.HttpURLConnection;
+        import java.net.MalformedURLException;
+        import java.net.URL;
 
 
         public class InicioSesion extends Activity {
+            public static final int CONNECTION_TIMEOUT=10000;
+            public static final int READ_TIMEOUT=15000;
 
             ProgressDialog prgDialog;
 
-        // Email, password edittext
-        EditText txtUsername, txtPassword;
+            // Email, password edittext
+            EditText txtUsername, txtPassword;
 
-        // login button
-        Button btnLogin;
+            // login button
+            Button btnLogin;
 
-        // Alert Dialog Manager
-        AlertDialogManager alert = new AlertDialogManager();
+            // Alert Dialog Manager
+            AlertDialogManager alert = new AlertDialogManager();
 
-        // Session Manager Class
-        SessionManagement session;
+            // Session Manager Class
+            SessionManagement session;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,7 @@
         // Email, Password input text
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
+
 
         Toast.makeText(getApplicationContext(), "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG).show();
 
@@ -79,24 +88,9 @@
                 // Check if username, password is filled
                 if(username.trim().length() > 0 && password.trim().length() > 0){
                     // For testing puspose username, password is checked with sample data
-                    // username = test
-                    // password = test
-                    if(username.equals("test") && password.equals("test")){
+                    // Initialize  AsyncLogin() class with email and password
+                    new AsyncLogin().execute(username,password);
 
-                        // Creating user login session
-                        // For testing i am stroing name, email as follow
-                        // Use user real data
-                        session.createLoginSession("Android Hive", "anroidhive@gmail.com","PEPE");
-
-                        // Staring MainActivity
-                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(i);
-                        finish();
-
-                    }else{
-                        // username / password doesn't match
-                        alert.showAlertDialog(InicioSesion.this, "Login failed..", "Username/Password is incorrect", false);
-                    }
                 }else{
                     // user didn't entered username or password
                     // Show alert asking him to enter the details
@@ -107,59 +101,166 @@
         });
     }
 
+            private class AsyncLogin extends AsyncTask<String, String, String>
+            {
+                ProgressDialog pdLoading = new ProgressDialog(InicioSesion.this);
+                JSONObject jObj = null;
+                HttpURLConnection conn;
+                URL url = null;
+                Usuario usuario = new Usuario();
 
-            public void invokeWS(RequestParams params){
-                // Show Progress Dialog
-                prgDialog.show();
-                // Make RESTful webservice call using AsyncHttpClient object
-                AsyncHttpClient client = new AsyncHttpClient();
-                client.post(getString(R.string.serverURL),params ,new AsyncHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                        // Hide Progress Dialog
-                        prgDialog.hide();
-                        try {
-                            // JSON Object
-                            System.out.println(new String(response));
-                            JSONObject obj = new JSONObject(new String(response));
-                            // When the JSON response has status boolean value assigned with true
-                            if(obj.getBoolean("status")){
-                                // Set Default Values for Edit View controls
-                                // Display successfully registered message using Toast
-                                Toast.makeText(getApplicationContext(), obj.getString("msg"), Toast.LENGTH_LONG).show();
-                            }
-                            // Else display error message
-                            else{
-                                //errorMsg.setText(obj.getString("error_msg"));
-                                Toast.makeText(getApplicationContext(),obj.getString("Error") , Toast.LENGTH_LONG).show();
-                            }
-                        } catch (JSONException e) {
-                            Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    //this method will be running on UI thread
+                    pdLoading.setMessage("\tLoading...");
+                    pdLoading.setCancelable(false);
+                    pdLoading.show();
+
+                }
+                @Override
+                protected String doInBackground(String... params) {
+                    try {
+
+                        // Enter URL address where your php file resides
+                        url = new URL(getString(R.string.serverURL));
+
+                    } catch (MalformedURLException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                        return "exception";
+                    }
+                    try {
+                        // Setup HttpURLConnection class to send and receive data from php and mysql
+                        conn = (HttpURLConnection)url.openConnection();
+                        conn.setReadTimeout(READ_TIMEOUT);
+                        conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                        conn.setRequestMethod("POST");
+
+                        // setDoInput and setDoOutput method depict handling of both send and receive
+                        conn.setDoInput(true);
+                        conn.setDoOutput(true);
+
+                        // Append parameters to URL
+                        Uri.Builder builder = new Uri.Builder()
+                                .appendQueryParameter("nickname", params[0])
+                                .appendQueryParameter("password", params[1])
+                                .appendQueryParameter("accion", "loginUser");
+                        String query = builder.build().getEncodedQuery();
+
+                        // Open connection for sending data
+                        OutputStream os = conn.getOutputStream();
+                        BufferedWriter writer = new BufferedWriter(
+                                new OutputStreamWriter(os, "UTF-8"));
+                        writer.write(query);
+                        writer.flush();
+                        writer.close();
+                        os.close();
+                        conn.connect();
+
+                    } catch (IOException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                        return "exception";
                     }
 
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        prgDialog.hide();
-                        // When Http response code is '404'
-                        if(statusCode == 404){
-                            Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                    try {
+                        int response_code = conn.getResponseCode();
+
+                        // Check if successful connection made
+                        if (response_code == HttpURLConnection.HTTP_OK) {
+
+                            // Read data sent from server
+                            InputStream input = conn.getInputStream();
+                            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                            StringBuilder result = new StringBuilder();
+                            String line;
+
+                            while ((line = reader.readLine()) != null) {
+                                result.append(line);
+                            }
+                            String errorString="";
+                            try {
+                                jObj = new JSONObject(result.toString());
+                                boolean error = jObj.getBoolean("error");
+                                if(!error){
+                                    errorString="False";
+                                    JSONObject user = jObj.getJSONObject("usuario");
+                                    usuario.setNickname(user.getString("nickname"));
+                                    usuario.setNombre(user.getString("nombre"));
+                                    usuario.setIdUsuario(user.getInt("id"));
+                                    usuario.setAltura(user.getDouble("altura"));
+                                    usuario.setPeso(user.getDouble("peso"));
+                                    usuario.setEdad(user.getInt("edad"));
+                                    usuario.setEmail(user.getString("email"));
+                                    if(user.getInt("sexo")==0){
+                                        usuario.setSexo(true);
+                                    }else{
+                                        usuario.setSexo(false);
+                                    }
+                                    if(user.getInt("entrenador")==0){
+                                        usuario.setEsEntrenador(false);
+                                    }else{
+                                        usuario.setSexo(true);
+                                    }
+                                }else{
+                                    errorString="True";
+                                }
+                                // Pass data to onPostExecute method
+
+                            } catch (JSONException e) {
+                                Log.e("JSON Parser", "Error parsing data " + e.toString());
+                            }
+                            return(errorString);
+                        }else{
+                            return("unsuccessful");
                         }
-                        // When Http response code is '500'
-                        else if(statusCode == 500) {
-                            Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
-                        }
-                        //When user is already registered
-                        else if(statusCode == 306){
-                            Toast.makeText(getApplicationContext(), "El usuario ya se encuentra registrado", Toast.LENGTH_LONG).show();
-                        }
-                        // When Http response code other than 404, 500
-                        else{
-                            Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
-                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return "exception";
+                    } finally {
+                        conn.disconnect();
                     }
-                });
+                }
+
+                @Override
+                protected void onPostExecute(String result) {
+
+                    //this method will be running on UI thread
+
+                    pdLoading.dismiss();
+
+                    if(result.equals("False"))
+                    {
+                        /* Here launching another activity when login successful. If you persist login state
+                        use sharedPreferences of Android. and logout button to clear sharedPreferences.
+                         */
+
+                        // Creating user login session
+                        // For testing i am stroing name, email as follow
+                        // Use user real data
+                        session.createLoginSession(usuario);
+                        String str=String.valueOf(session.isLoggedIn());
+                        System.out.println(str);
+                        // Staring MainActivity
+                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(i);
+                        finish();
+
+                    }else if (result.equals("True")){
+
+                        // If username and password does not match display a error message
+                        //Toast.makeText(InicioSesion.this, "Invalid email or password", Toast.LENGTH_LONG).show();
+                        // username / password doesn't match
+                        alert.showAlertDialog(InicioSesion.this, "Login failed..", "Username/Password is incorrect", false);
+
+                    } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+
+                        //Toast.makeText(InicioSesion.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+                        alert.showAlertDialog(InicioSesion.this, "Login failed..", "Username/Password is incorrect", false);
+                    }
+                }
+
             }
 }
 

@@ -13,7 +13,7 @@ public class Usuario {
     private int edad;
     private double peso;
     private double altura;
-    private Boolean sexo;
+    private boolean sexo;
     private boolean esEntrenador;
 
     public Usuario(int idUsuario, String nickname, String nombre, String email, String contrasenia, int edad, double peso, double altura, Boolean sexo, boolean esEntrenador) {
@@ -28,6 +28,8 @@ public class Usuario {
         this.sexo = sexo;
         this.esEntrenador = esEntrenador;
     }
+
+    public Usuario(){}
 
     public int getIdUsuario() {
         return idUsuario;
@@ -73,7 +75,7 @@ public class Usuario {
         return peso;
     }
 
-    public void setPeso(float peso) {
+    public void setPeso(double peso) {
         this.peso = peso;
     }
 
@@ -81,7 +83,7 @@ public class Usuario {
         return altura;
     }
 
-    public void setAltura(float altura) {
+    public void setAltura(double altura) {
         this.altura = altura;
     }
 

@@ -11,14 +11,9 @@ package com.fitrainer.upm.fitrainer.Sesion;
         import android.content.SharedPreferences;
         import android.content.SharedPreferences.Editor;
 
-        import java.util.HashMap;
-
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.SharedPreferences;
-        import android.content.SharedPreferences.Editor;
-
+        import com.fitrainer.upm.fitrainer.InicioSesion;
         import com.fitrainer.upm.fitrainer.MainActivity;
+        import com.fitrainer.upm.fitrainer.Usuario;
 
 public class SessionManagement {
     // Shared Preferences
@@ -48,6 +43,24 @@ public class SessionManagement {
     //Nickname
     public static final String KEY_NICKNAME = "nickname";
 
+    //ID
+    public static final String KEY_ID = "id";
+
+    //Edad
+    public static final String KEY_EDAD = "edad";
+
+    //Peso
+    public static final String KEY_PESO = "peso";
+
+    //Altura
+    public static final String KEY_ALTURA = "altura";
+
+    //Entrenador
+    public static final String KEY_ENTRENADOR = "entrenador";
+
+    //Sexo
+    public static final String KEY_SEXO = "sexo";
+
     // Constructor
     public SessionManagement(Context context){
         this._context = context;
@@ -58,18 +71,37 @@ public class SessionManagement {
     /**
      * Create login session
      * */
-    public void createLoginSession(String nombre, String email, String nickname){
+    public void createLoginSession(Usuario usuario){
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
         // Almacenamos el nombre en el pref
-        editor.putString(KEY_NAME, nombre);
+        editor.putString(KEY_NAME, usuario.getNombre());
 
         // Almacenamos el email en el pref
-        editor.putString(KEY_EMAIL, email);
+        editor.putString(KEY_EMAIL, usuario.getEmail());
 
         // Almacenamos el nickname en el pref
-        editor.putString(KEY_NICKNAME, nickname);
+        editor.putString(KEY_NICKNAME, usuario.getNickname());
+
+        // Almacenamos el id en el pref
+        editor.putInt(KEY_ID, usuario.getIdUsuario());
+
+        // Almacenamos la edad en el pref
+        editor.putInt(KEY_EDAD, usuario.getEdad());
+
+        // Almacenamos el peso en el pref
+        editor.putString(KEY_PESO, Double.toString(usuario.getPeso()));
+
+        // Almacenamos la alturaen el pref
+        editor.putString(KEY_ALTURA, Double.toString(usuario.getAltura()));
+
+        // Almacenamos si es entrenador en el pref
+        editor.putBoolean(KEY_ENTRENADOR,usuario.isEsEntrenador());
+
+        // Almacenamos el id en el pref
+        editor.putBoolean(KEY_SEXO,usuario.getSexo());
+
 
         // commit changes
         editor.commit();
@@ -80,11 +112,11 @@ public class SessionManagement {
      * If false it will redirect user to login page
      * Else won't do anything
      * */
-    public void checkLogin(){
+    public boolean checkLogin(){
         // Check login status
         if(!this.isLoggedIn()){
             // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, MainActivity.class);
+            Intent i = new Intent(_context, InicioSesion.class);
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -93,7 +125,9 @@ public class SessionManagement {
 
             // Staring Login Activity
             _context.startActivity(i);
+            return true;
         }
+        return false;
 
     }
 
@@ -112,6 +146,24 @@ public class SessionManagement {
 
         // user email id
         user.put(KEY_NICKNAME, pref.getString(KEY_NICKNAME, null));
+
+        // user id id
+        user.put(KEY_ID, pref.getString(KEY_ID, null));
+
+        // user edad id
+        user.put(KEY_EDAD, pref.getString(KEY_EDAD, null));
+
+        // user peso id
+        user.put(KEY_PESO, pref.getString(KEY_PESO, null));
+
+        // user altura id
+        user.put(KEY_ALTURA, pref.getString(KEY_ALTURA, null));
+
+        // user entrenador id
+        user.put(KEY_ENTRENADOR, pref.getString(KEY_ENTRENADOR, null));
+
+        // user sexo id
+        user.put(KEY_SEXO, pref.getString(KEY_SEXO, null));
 
         // return user
         return user;

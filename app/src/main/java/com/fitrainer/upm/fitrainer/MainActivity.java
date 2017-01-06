@@ -3,6 +3,7 @@ package com.fitrainer.upm.fitrainer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,11 +13,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
-
+import com.fitrainer.upm.fitrainer.Sesion.AlertDialogManager;
+import com.fitrainer.upm.fitrainer.Sesion.SessionManagement;
 import com.fitrainer.upm.fitrainer.Tabs.PagerAdapter;
 import com.github.clans.fab.FloatingActionMenu;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity
@@ -25,11 +27,39 @@ public class MainActivity extends AppCompatActivity
 
     FloatingActionMenu materialDesignFAM;
     com.github.clans.fab.FloatingActionButton floatingActionButton1, floatingActionButton2,floatingActionButton3;
+    // Alert Dialog Manager
+    AlertDialogManager alert = new AlertDialogManager();
+
+    // Session Manager Class
+    SessionManagement session;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Session class instance
+        session = new SessionManagement(getApplicationContext());
+        Toast.makeText(getApplicationContext(),
+                "User Login Status: " + session.isLoggedIn(),
+                Toast.LENGTH_LONG).show();
+
+        /**************BLOQUEAMOS LOS ITEMS DEL LISTADO SI NO ESTAMOS LOGUEADOS*******************/
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        if(!session.isLoggedIn()){
+            MenuItem nav_perfil = menu.findItem(R.id.nav_mi_perfil);
+            nav_perfil.setVisible(false);
+
+            MenuItem nav_desconectar = menu.findItem(R.id.nav_desconectar);
+            nav_desconectar.setVisible(false);
+        }else{
+            MenuItem nav_inicio_sesion = menu.findItem(R.id.nav_inicio_sesion);
+            nav_inicio_sesion.setVisible(false);
+        }
+
+        /*********************************/
 
         /*********************************/
         /*Tabs del principal*/
@@ -73,7 +103,6 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -148,7 +177,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -179,7 +207,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_desconectar) {
-
+            session.logoutUser();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
