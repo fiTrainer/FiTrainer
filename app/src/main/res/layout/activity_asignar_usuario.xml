@@ -18,10 +18,11 @@
         android:ems="10"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/etBuscar" />
+        android:id="@+id/etBuscar"
+        android:hint="@string/hint" />
 
     <Button
-        android:text="Button"
+        android:text="@string/btnBuscar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

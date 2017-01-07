@@ -95,9 +95,7 @@
 
 
     <!-- Strings related to Asignar Usuarios -->
-    <string name="asignNickname">Nickname</string>
-    <string name="asignNombre">Nombre</string>
-    <string name="asignEmail">Email</string>
-    <string name="asignEdad">Edad</string>
+    <string name="btnBuscar">Buscar</string>
+    <string name="hint">Introduzca el nickname</string>
 
 </resources>

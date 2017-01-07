@@ -29,6 +29,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -43,12 +44,23 @@ public class AsignarUsuario extends AppCompatActivity {
     // Session Manager Class
     SessionManagement session;
 
+    //ID ENTRENADOR
+    int id_entrenador;
+
     ProgressDialog prgDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asignar_usuario);
 
+        //SESION
+        // get user data from session
+        session = new SessionManagement(getApplicationContext());
+        session.checkLogin();
+        if(!session.checkLogin()){
+            HashMap<String, String> user = session.getUserDetails();
+            id_entrenador=Integer.parseInt(user.get(SessionManagement.KEY_ID));
+        }
 
         prgDialog = new ProgressDialog(this);
         prgDialog.setMessage("Por favor espere...");
@@ -197,7 +209,7 @@ public class AsignarUsuario extends AppCompatActivity {
                 list.setVisibility(View.VISIBLE);
                 // Pass results to ListViewAdapterMenu Class
                 listviewadapter = new ListViewAdapterUsuarios(AsignarUsuario.this, R.layout.entrada_usuario,
-                        arrayUsuarios);
+                        arrayUsuarios,id_entrenador);
 
                 // Binds the Adapter to the ListView
                 list.setAdapter(listviewadapter);
