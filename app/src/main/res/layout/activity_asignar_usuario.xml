@@ -11,79 +11,6 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:text="@string/asignNickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="88dp"
-        android:id="@+id/textView13" />
-
-    <TextView
-        android:text="@string/asignNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView14"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="14dp"
-        android:id="@+id/textView22" />
-
-    <TextView
-        android:text="@string/asignEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView23"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp"
-        android:id="@+id/textView24" />
-
-    <TextView
-        android:text="@string/asignEdad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView25"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="12dp"
-        android:id="@+id/textView26" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView23"
-        android:layout_alignBaseline="@+id/textView22"
-        android:layout_alignBottom="@+id/textView22"
-        android:layout_alignStart="@+id/textView14" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView25"
-        android:layout_alignBaseline="@+id/textView24"
-        android:layout_alignBottom="@+id/textView24"
-        android:layout_alignStart="@+id/textView23" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView27"
-        android:layout_alignBaseline="@+id/textView26"
-        android:layout_alignBottom="@+id/textView26"
-        android:layout_alignStart="@+id/textView25" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView14"
-        android:layout_marginStart="47dp"
-        android:layout_alignBaseline="@+id/textView13"
-        android:layout_alignBottom="@+id/textView13"
-        android:layout_toEndOf="@+id/textView13" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -102,4 +29,12 @@
         android:layout_marginStart="17dp"
         android:id="@+id/btnBuscar"
         android:layout_alignBottom="@+id/etBuscar" />
+
+        <ListView
+            android:id="@+id/ListView_listadoUserAsign"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/etBuscar">
+        </ListView>
 </RelativeLayout>

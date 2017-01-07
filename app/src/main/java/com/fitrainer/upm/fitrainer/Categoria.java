@@ -1,12 +1,6 @@
 package com.fitrainer.upm.fitrainer;
 
 /**
- * Created by abel on 22/11/16.
- */
-
-import java.util.ArrayList;
-
-/**
  * Clase que representa la existencia de un Coche
  */
 public class Categoria {

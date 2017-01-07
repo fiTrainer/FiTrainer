@@ -1,8 +1,5 @@
 package com.fitrainer.upm.fitrainer.ListadoDietas;
 
-/**
- * Created by abel on 10/12/16.
- */
 
 public class ListaEntrada {
     private int idImagen;

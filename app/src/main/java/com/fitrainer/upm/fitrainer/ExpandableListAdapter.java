@@ -1,8 +1,5 @@
 package com.fitrainer.upm.fitrainer;
 
-/**
- * Created by abel on 22/11/16.
- */
 
 
         import java.util.ArrayList;

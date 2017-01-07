@@ -7,9 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-/**
- * Created by abel on 11/12/16.
- */
 
 public class NumberPicker {
     private int value=0;

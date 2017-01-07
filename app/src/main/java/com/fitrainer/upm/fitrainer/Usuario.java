@@ -1,8 +1,6 @@
 package com.fitrainer.upm.fitrainer;
 
-/**
- * Created by abel on 25/12/16.
- */
+
 
 public class Usuario {
     private int idUsuario;
@@ -27,6 +25,14 @@ public class Usuario {
         this.altura = altura;
         this.sexo = sexo;
         this.esEntrenador = esEntrenador;
+    }
+
+    public Usuario(int idUsuario, String nickname, String nombre, String email, int edad) {
+        this.idUsuario = idUsuario;
+        this.nickname = nickname;
+        this.nombre = nombre;
+        this.email = email;
+        this.edad = edad;
     }
 
     public Usuario(){}

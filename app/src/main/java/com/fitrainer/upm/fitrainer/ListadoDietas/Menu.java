@@ -1,8 +1,6 @@
 package com.fitrainer.upm.fitrainer.ListadoDietas;
 
-/**
- * Created by abel on 11/12/16.
- */
+
 public class Menu {
     private String id;
     private String nombre;
