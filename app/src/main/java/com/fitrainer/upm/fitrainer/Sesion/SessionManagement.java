@@ -61,6 +61,9 @@ public class SessionManagement {
     //Sexo
     public static final String KEY_SEXO = "sexo";
 
+    //Contraseña
+    public static final String KEY_CONTRASENIA = "contrasenia";
+
     // Constructor
     public SessionManagement(Context context){
         this._context = context;
@@ -85,10 +88,10 @@ public class SessionManagement {
         editor.putString(KEY_NICKNAME, usuario.getNickname());
 
         // Almacenamos el id en el pref
-        editor.putInt(KEY_ID, usuario.getIdUsuario());
+        editor.putString(KEY_ID, String.valueOf(usuario.getIdUsuario()));
 
         // Almacenamos la edad en el pref
-        editor.putInt(KEY_EDAD, usuario.getEdad());
+        editor.putString(KEY_EDAD, String.valueOf(usuario.getEdad()));
 
         // Almacenamos el peso en el pref
         editor.putString(KEY_PESO, Double.toString(usuario.getPeso()));
@@ -97,10 +100,13 @@ public class SessionManagement {
         editor.putString(KEY_ALTURA, Double.toString(usuario.getAltura()));
 
         // Almacenamos si es entrenador en el pref
-        editor.putBoolean(KEY_ENTRENADOR,usuario.isEsEntrenador());
+        editor.putString(KEY_ENTRENADOR,String.valueOf(usuario.isEsEntrenador()));
 
         // Almacenamos el id en el pref
-        editor.putBoolean(KEY_SEXO,usuario.getSexo());
+        editor.putString(KEY_SEXO,String.valueOf(usuario.getSexo()));
+
+        // Almacenamos el id en el pref
+        editor.putString(KEY_CONTRASENIA,usuario.getContrasenia());
 
 
         // commit changes
@@ -164,6 +170,9 @@ public class SessionManagement {
 
         // user sexo id
         user.put(KEY_SEXO, pref.getString(KEY_SEXO, null));
+
+        // user sexo id
+        user.put(KEY_CONTRASENIA, pref.getString(KEY_CONTRASENIA, null));
 
         // return user
         return user;

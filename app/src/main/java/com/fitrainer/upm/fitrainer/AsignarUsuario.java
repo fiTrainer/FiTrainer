@@ -48,7 +48,6 @@ public class AsignarUsuario extends AppCompatActivity {
 
     }
 
-
     public void invokeWS(RequestParams params){
         // Show Progress Dialog
         prgDialog.show();

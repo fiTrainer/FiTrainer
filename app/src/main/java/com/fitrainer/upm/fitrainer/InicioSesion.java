@@ -2,7 +2,6 @@
         import android.app.Activity;
         import android.app.ProgressDialog;
         import android.content.Intent;
-        import android.content.SharedPreferences;
         import android.net.Uri;
         import android.os.AsyncTask;
         import android.os.Bundle;
@@ -35,6 +34,9 @@
 
             // Email, password edittext
             EditText txtUsername, txtPassword;
+
+            String contrasenia="";
+            String username="";
 
             // login button
             Button btnLogin;
@@ -82,14 +84,14 @@
             @Override
             public void onClick(View arg0) {
                 // Get username, password from EditText
-                String username = txtUsername.getText().toString();
-                String password = txtPassword.getText().toString();
+                username = txtUsername.getText().toString();
+                contrasenia = txtPassword.getText().toString();
 
                 // Check if username, password is filled
-                if(username.trim().length() > 0 && password.trim().length() > 0){
+                if(username.trim().length() > 0 && contrasenia.trim().length() > 0){
                     // For testing puspose username, password is checked with sample data
                     // Initialize  AsyncLogin() class with email and password
-                    new AsyncLogin().execute(username,password);
+                    new AsyncLogin().execute(username,contrasenia);
 
                 }else{
                     // user didn't entered username or password
@@ -203,6 +205,7 @@
                                     }else{
                                         usuario.setSexo(true);
                                     }
+                                    usuario.setContrasenia(contrasenia);
                                 }else{
                                     errorString="True";
                                 }
