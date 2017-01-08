@@ -13,6 +13,7 @@
     <string name="mis_rutinas">Mis rutinas</string>
     <string name="mis_dietas">Mis dietas</string>
     <string name="asignar_usuario">Asignar usuario</string>
+    <string name="mis_usuarios">Mis usuarios</string>
     <string name="inicio_sesion">Inicio Sesión</string>
     <string name="desconectar">Desconectar</string>
     <string name="title_activity_listado_categorias">ListadoCategorias</string>

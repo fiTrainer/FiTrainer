@@ -202,6 +202,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(),AsignarUsuario.class);
             startActivity(intent);
 
+
+        } else if (id == R.id.nav_mis_usuarios) {
+            Intent intent = new Intent(getApplicationContext(),MisUsuarios.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_inicio_sesion) {
             Intent intent = new Intent(getApplicationContext(),InicioSesion.class);
             startActivity(intent);

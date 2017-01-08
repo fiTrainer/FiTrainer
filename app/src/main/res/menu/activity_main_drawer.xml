@@ -18,6 +18,11 @@
             android:id="@+id/nav_asignar_usuario"
             android:icon="@drawable/ic_menu_asignar"
             android:title="@string/asignar_usuario" />
+
+        <item
+            android:id="@+id/nav_mis_usuarios"
+            android:icon="@drawable/ic_menu_asignar"
+            android:title="@string/mis_usuarios" />
         <item
             android:id="@+id/nav_inicio_sesion"
             android:icon="@drawable/ic_menu_login"

@@ -12,11 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.fitrainer.upm.fitrainer.R;
 import com.fitrainer.upm.fitrainer.Sesion.AlertDialogManager;
 import com.fitrainer.upm.fitrainer.Usuario;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -29,7 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-public class ListViewAdapterUsuarios extends ArrayAdapter<Usuario> {
+public class ListViewAdapterUsuariosDetalle extends ArrayAdapter<Usuario> {
     // Declare Variables
     Context context;
     LayoutInflater inflater;
@@ -43,8 +46,8 @@ public class ListViewAdapterUsuarios extends ArrayAdapter<Usuario> {
     // Alert Dialog Manager
     AlertDialogManager alert = new AlertDialogManager();
 
-    public ListViewAdapterUsuarios(Context context, int resourceId,
-                                  List<Usuario> arrayUsuarios,int idEntrenador) {
+    public ListViewAdapterUsuariosDetalle(Context context, int resourceId,
+                                          List<Usuario> arrayUsuarios, int idEntrenador) {
         super(context, resourceId, arrayUsuarios);
         mSelectedItemsIds = new SparseBooleanArray();
         this.context = context;
@@ -59,24 +62,28 @@ public class ListViewAdapterUsuarios extends ArrayAdapter<Usuario> {
         TextView nickname;
         TextView edad;
         TextView email;
+        TextView altura;
+        TextView peso;
         Button boton;
     }
 
     public View getView(int position, View view, ViewGroup parent) {
-        final com.fitrainer.upm.fitrainer.ListadoUsuarios.ListViewAdapterUsuarios.ViewHolder holder;
+        final ListViewAdapterUsuariosDetalle.ViewHolder holder;
         final int pos=position;
         if (view == null) {
-            holder = new com.fitrainer.upm.fitrainer.ListadoUsuarios.ListViewAdapterUsuarios.ViewHolder();
-            view = inflater.inflate(R.layout.entrada_usuario, null);
+            holder = new ListViewAdapterUsuariosDetalle.ViewHolder();
+            view = inflater.inflate(R.layout.entrada_usuario_detalle, null);
             holder.nickname = (TextView) view.findViewById(R.id.nickname);
             holder.nombre = (TextView) view.findViewById(R.id.nombre);
             holder.edad = (TextView) view.findViewById(R.id.edad);
             holder.email = (TextView) view.findViewById(R.id.email);
+            holder.altura = (TextView) view.findViewById(R.id.altura);
+            holder.peso = (TextView) view.findViewById(R.id.peso);
 
-            holder.boton=(Button) view.findViewById(R.id.botonDetalle);
+            holder.boton=(Button) view.findViewById(R.id.btnEliminar);
             view.setTag(holder);
         } else {
-            holder = (com.fitrainer.upm.fitrainer.ListadoUsuarios.ListViewAdapterUsuarios.ViewHolder) view.getTag();
+            holder = (ListViewAdapterUsuariosDetalle.ViewHolder) view.getTag();
         }
         // Capture position and set to the TextViews
         // holder.id.setText(arrayMenus.get(position).getId());
@@ -84,19 +91,21 @@ public class ListViewAdapterUsuarios extends ArrayAdapter<Usuario> {
         holder.nickname.setText(arrayUsers.get(position).getNickname());
         holder.edad.setText("Edad: "+String.valueOf(arrayUsers.get(position).getEdad()));
         holder.email.setText("Email: "+arrayUsers.get(position).getEmail());
+        holder.peso.setText("Peso: "+ String.valueOf(arrayUsers.get(position).getPeso()));
+        holder.altura.setText("Altura: "+String.valueOf(arrayUsers.get(position).getAltura()));
 
 
         //FUNCIONA
 
-        Button boton = (Button) view.findViewById(R.id.botonDetalle);
-        boton.setText("Agregar");
+        Button boton = (Button) view.findViewById(R.id.btnEliminar);
+        boton.setText("Eliminar");
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //when play is clicked show stop button and hide play button
                 int id_usuario =arrayUsers.get(pos).getIdUsuario();
                 int entrenador=id_entrenador;
-                new AsyncEntenadorAsignaUsuario().execute(String.valueOf(entrenador),String.valueOf(id_usuario));
+                new AsyncEntenadorEliminaUsuario().execute(String.valueOf(entrenador),String.valueOf(id_usuario));
                 remove(arrayUsers.get(pos));
             }
         });
@@ -140,7 +149,7 @@ public class ListViewAdapterUsuarios extends ArrayAdapter<Usuario> {
 
 
 
-    private class AsyncEntenadorAsignaUsuario extends AsyncTask<String, String, String>
+    private class AsyncEntenadorEliminaUsuario extends AsyncTask<String, String, String>
     {
         ProgressDialog pdLoading = new ProgressDialog(context);
         HttpURLConnection conn;
@@ -180,7 +189,7 @@ public class ListViewAdapterUsuarios extends ArrayAdapter<Usuario> {
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("idEntrenador", params[0])
                         .appendQueryParameter("idUsuario", params[1])
-                        .appendQueryParameter("accion", "asignarUsuarioAEntrenador");
+                        .appendQueryParameter("accion", "EntrenadorEliminaUsuario");
                 String query = builder.build().getEncodedQuery();
 
                 // Open connection for sending data
@@ -243,10 +252,10 @@ public class ListViewAdapterUsuarios extends ArrayAdapter<Usuario> {
             pdLoading.dismiss();
             if(result.equals("False"))
             {
-                alert.showAlertDialog(context, "Insercion Correcta", "Se ha insertado correctamente", true);
+                alert.showAlertDialog(context, "Eliminacion Correcta", "Se ha eliminado correctamente", true);
             }else if (result.equals("True")){
 
-                alert.showAlertDialog(context, "Insercion Incorrecta", "Ha habido un problema en la insercion", false);
+                alert.showAlertDialog(context, "Eliminacion Incorrecta", "Ha habido un problema en la eliminacion", false);
 
             } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
                 alert.showAlertDialog(context, "Error", "Otro Error", false);
