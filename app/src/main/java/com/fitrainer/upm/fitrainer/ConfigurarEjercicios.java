@@ -17,14 +17,20 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class ConfigurarEjercicios extends AppCompatActivity {
-
+    NumberPicker nbSeries;
+    NumberPicker nbRep;
+    NumberPicker nbPeso;
+    String nombre;
+    int idEjer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configurar_ejercicios);
         TextView nombreEjercicio = (TextView) findViewById(R.id.confTitulo);
         Bundle bundle = getIntent().getExtras();
-        nombreEjercicio.setText(bundle.getString("NOMBRE_EJERCICIO"));
+        nombre = bundle.getString("NOMBRE_EJERCICIO");
+        idEjer = bundle.getInt("ID_EJERCICIO");
+        nombreEjercicio.setText(nombre);
 
 
         /*Botones*/
@@ -38,9 +44,9 @@ public class ConfigurarEjercicios extends AppCompatActivity {
         EditText Reps = (EditText) findViewById(R.id.etRep);
         EditText Peso = (EditText) findViewById(R.id.etPeso);
 
-        NumberPicker nbSeries = new NumberPicker(botonMasSeries, botonMenosSeries, Series);
-        NumberPicker nbRep = new NumberPicker(botonMasRep, botonMenosRep, Reps);
-        NumberPicker nbPeso = new NumberPicker(botonMasPeso, botonMenosPeso, Peso);
+        nbSeries = new NumberPicker(botonMasSeries, botonMenosSeries, Series);
+        nbRep = new NumberPicker(botonMasRep, botonMenosRep, Reps);
+        nbPeso = new NumberPicker(botonMasPeso, botonMenosPeso, Peso);
 
         // Series.setText(nbSeries.getValue());
 
@@ -50,7 +56,19 @@ public class ConfigurarEjercicios extends AppCompatActivity {
 
         botonGuardar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                ConfigurarEjercicios.super.onBackPressed();
+                int series = nbSeries.getValue();
+                int rep = nbRep.getValue();
+                int peso = nbPeso.getValue();
+                if(series == 0||rep==0||peso==0){
+                    Toast.makeText(getApplicationContext(),"debes llenar los campos!",Toast.LENGTH_LONG).show();
+                }else{
+                    Ejercicio ej = new Ejercicio(idEjer,nombre,"","");
+                    ej.setPeso(peso);
+                    ej.setRep(rep);
+                    ej.setSeries(series);
+                    RutinaSingleton.getInstance().add(ej);
+                    ConfigurarEjercicios.super.onBackPressed();
+                }
             }
         });
 

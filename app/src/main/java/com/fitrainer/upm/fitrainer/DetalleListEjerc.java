@@ -1,5 +1,6 @@
 package com.fitrainer.upm.fitrainer;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,10 +11,20 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import cz.msebera.android.httpclient.Header;
 
 public class DetalleListEjerc extends AppCompatActivity {
     List<String> groupList;
@@ -21,12 +32,18 @@ public class DetalleListEjerc extends AppCompatActivity {
     Map<String, ArrayList<Ejercicio>> laptopCollection;
     ExpandableListView expListView;
     private Categoria itemDetallado;
+    ProgressDialog prgDialog;
+    JSONArray ejercicios;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_list_ejerc);
 
         TextView tipoEjercicio = (TextView) findViewById(R.id.tvNomRut);
+        prgDialog = new ProgressDialog(this);
+        prgDialog.setMessage("Por favor espere...");
+        prgDialog.setCancelable(false);
         Bundle bundle = getIntent().getExtras();
         tipoEjercicio.setText(bundle.getString("tipoEjercicio"));
 
@@ -36,8 +53,11 @@ public class DetalleListEjerc extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         createGroupList();
-
-        createCollection();
+        RequestParams params = new RequestParams();
+        params.put("accion","ejercicios");
+        params.put("categoria",bundle.getString("tipoEjercicio"));
+        System.out.println(bundle.getString("tipoEjercicio"));
+        //createCollection();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +67,37 @@ public class DetalleListEjerc extends AppCompatActivity {
             }
         });
 
+
+
+        childList = new ArrayList<Ejercicio>();
+        invokeWS(params);
+    }
+
+
+    private void createGroupList() {
+        groupList = new ArrayList<String>();
+        //groupList.add("Curl de Pierna");
+        //groupList.add("Sentadillas");
+
+    }
+
+    private void createCollection() {
+        laptopCollection = new LinkedHashMap<String, ArrayList<Ejercicio>>();
+        try {
+
+            for (int i = 0; i < ejercicios.length(); i++) {
+                ArrayList<Ejercicio> model = new ArrayList<Ejercicio>();
+                JSONObject ejerObj = (JSONObject) ejercicios.get(i);
+                String imagen = ejerObj.isNull("foto")? null : ejerObj.getString("foto");
+                Ejercicio ejercicio1 = new Ejercicio(ejerObj.getInt("idejercicio"),ejerObj.getString("nombre"),ejerObj.getString("descripcion"),imagen);
+                model.add(ejercicio1);
+                groupList.add(ejercicio1.getNombre());
+                loadChild(model);
+                laptopCollection.put(ejercicio1.getNombre(),childList);
+            }
+        }catch (JSONException e) {
+                e.printStackTrace();
+        }
 
         // Lista Expandible
         expListView = (ExpandableListView) findViewById(R.id.laptop_list);
@@ -70,48 +121,61 @@ public class DetalleListEjerc extends AppCompatActivity {
         });
     }
 
-
-    private void createGroupList() {
-        groupList = new ArrayList<String>();
-        groupList.add("Curl de Pierna");
-        groupList.add("Sentadillas");
-
-    }
-
-    private void createCollection() {
-
-        Ejercicio ejercicio1Pierna = new Ejercicio(1,"Curl de Pierna", "Se hace en maquina","");
-        Ejercicio ejercicio2Pierna = new Ejercicio(2,"Sentadillas", "Se hace de pie","");
-
-        ArrayList<Ejercicio> piernaModel = new ArrayList<Ejercicio>();
-        piernaModel.add(ejercicio1Pierna);
-
-
-        ArrayList<Ejercicio> pechoModel = new ArrayList<Ejercicio>();
-        pechoModel.add(ejercicio2Pierna);
-
-        laptopCollection = new LinkedHashMap<String, ArrayList<Ejercicio>>();
-
-        for (String laptop : groupList) {
-            if (laptop.equals("Curl de Pierna")) {
-                loadChild(piernaModel);
-            } else if (laptop.equals("Sentadillas"))
-                loadChild(pechoModel);
-           /* else if (laptop.equals("Espalda"))
-                loadChild(sonyModels);
-            else if (laptop.equals("Biceps"))
-                loadChild(hclModels);
-            else if (laptop.equals("Triceps"))
-                loadChild(samsungModels);*/
-
-            laptopCollection.put(laptop, childList);
-        }
-    }
-
     private void loadChild(ArrayList<Ejercicio> ejerciciosModelos) {
         childList = new ArrayList<Ejercicio>();
         for (Ejercicio model : ejerciciosModelos)
             childList.add(model);
+    }
+    public void invokeWS(RequestParams params) {
+        // Show Progress Dialog
+        prgDialog.show();
+        // Make RESTful webservice call using AsyncHttpClient object
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.post(getString(R.string.serverURL), params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                // Hide Progress Dialog
+                prgDialog.hide();
+                try {
+                    // JSON Object
+                    System.out.println(new String(response));
+                    JSONObject obj = new JSONObject(new String(response));
+                    // When the JSON response has status boolean value assigned with true
+                    if (obj.getBoolean("status")) {
+                        // Set Default Values for Edit View controls
+                        ejercicios = obj.getJSONArray("ejercicios");
+                        // Display successfully registered message using Toast
+                        createCollection();
+                        //Toast.makeText(getApplicationContext(), obj.getString("msg"), Toast.LENGTH_LONG).show();
+                    }
+                    // Else display error message
+                    else {
+                        //errorMsg.setText(obj.getString("error_msg"));
+                        Toast.makeText(getApplicationContext(), obj.getString("Error"), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "Error Occured [Server's JSON response might be invalid]!", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                prgDialog.hide();
+                // When Http response code is '404'
+                if (statusCode == 404) {
+                    Toast.makeText(getApplicationContext(), "Requested resource not found", Toast.LENGTH_LONG).show();
+                }
+                // When Http response code is '500'
+                else if (statusCode == 500) {
+                    Toast.makeText(getApplicationContext(), "Something went wrong at server end", Toast.LENGTH_LONG).show();
+                }
+                // When Http response code other than 404, 500
+                else {
+                    Toast.makeText(getApplicationContext(), "Unexpected Error occcured! [Most common Error: Device might not be connected to Internet or remote server is not up and running]", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 }
