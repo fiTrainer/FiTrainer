@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FiTrainer</string>
 
-    <string name="serverURL">http://192.168.0.157/fitrainer/RedeemAPI.php</string>
+    <string name="serverURL">http://10.0.2.2/fitrainer/RedeemAPI.php</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

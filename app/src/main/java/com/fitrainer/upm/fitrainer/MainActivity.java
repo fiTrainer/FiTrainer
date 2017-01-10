@@ -20,6 +20,8 @@ import com.github.clans.fab.FloatingActionMenu;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener  {
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         // Session class instance
         session = new SessionManagement(getApplicationContext());
         Toast.makeText(getApplicationContext(),
@@ -54,9 +58,23 @@ public class MainActivity extends AppCompatActivity
 
             MenuItem nav_desconectar = menu.findItem(R.id.nav_desconectar);
             nav_desconectar.setVisible(false);
+
+            session.checkLogin();
         }else{
             MenuItem nav_inicio_sesion = menu.findItem(R.id.nav_inicio_sesion);
             nav_inicio_sesion.setVisible(false);
+
+            HashMap<String, String> user = session.getUserDetails();
+            boolean esEntrenador=Boolean.parseBoolean(user.get(SessionManagement.KEY_ENTRENADOR));
+            MenuItem nav_mis_usuarios = menu.findItem(R.id.nav_mis_usuarios);
+            MenuItem nav_asignar_usuario = menu.findItem(R.id.nav_asignar_usuario);
+            if(!esEntrenador){
+                nav_mis_usuarios.setVisible(false);
+                nav_asignar_usuario.setVisible(false);
+            }else{
+                nav_mis_usuarios.setVisible(true);
+                nav_asignar_usuario.setVisible(true);
+            }
         }
 
         /*********************************/

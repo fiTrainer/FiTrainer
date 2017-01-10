@@ -203,7 +203,7 @@
                                     if(user.getInt("entrenador")==0){
                                         usuario.setEsEntrenador(false);
                                     }else{
-                                        usuario.setSexo(true);
+                                        usuario.setEsEntrenador(true);
                                     }
                                     usuario.setContrasenia(contrasenia);
                                 }else{
