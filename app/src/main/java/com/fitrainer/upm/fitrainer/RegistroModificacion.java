@@ -15,8 +15,10 @@ import android.widget.Toast;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import com.fitrainer.upm.fitrainer.Sesion.SessionManagement;
 import com.loopj.android.http.*;
 
 import org.json.JSONException;
@@ -27,16 +29,18 @@ import cz.msebera.android.httpclient.Header;
 public class RegistroModificacion extends AppCompatActivity {
     ProgressDialog prgDialog;
 
+    // Session Manager Class
+    SessionManagement session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro_modificacion);
         final Bundle extras = getIntent().getExtras();
+
         prgDialog = new ProgressDialog(this);
         prgDialog.setMessage("Por favor espere...");
         prgDialog.setCancelable(false);
-
 
         //Rellenamos el spinner
         List age = new ArrayList();
@@ -64,36 +68,44 @@ public class RegistroModificacion extends AppCompatActivity {
         final RadioButton rbMujer = (RadioButton) findViewById(R.id.rbtMujer);
         final RadioButton rbHombre= (RadioButton) findViewById(R.id.rbtHombre);
         Button btnReset = (Button)findViewById(R.id.btnReset);
-        final Usuario user= new Usuario(0, "pepe1993", "Pepe", "pepe@pepe.com", "contraseña", 23, 65.3, 1.73,true, false);
+        //final Usuario user= new Usuario(0, "pepe1993", "Pepe", "pepe@pepe.com", "contraseña", 23, 65.3, 1.73,true, false);
 
         if(extras.getBoolean("VIENE_DE_LOGIN")){
             btnModReg.setText("Registrarse");
         }else{
+            // Session class instance
+            session = new SessionManagement(getApplicationContext());
+            //session.checkLogin();
+            // get user data from session
+            HashMap<String, String> user = session.getUserDetails();
+
+
             etNickname.setEnabled(false);
-            etNickname.setText(user.getNickname());
-            etNombre.setText(user.getNombre());
-            etEmail.setText(user.getEmail());
-            etContrasenia.setText(user.getContrasenia());
-            etRepContrasenia.setText(user.getContrasenia());
-            spinner.setSelection(user.getEdad());
-            etAltura.setText( new Double(user.getAltura()).toString());
-            etPeso.setText( new Double(user.getPeso()).toString());
-            if(user.getSexo()){
+            etNickname.setText(user.get(SessionManagement.KEY_NICKNAME));
+            etNombre.setText(user.get(SessionManagement.KEY_NAME));
+            etEmail.setText(user.get(SessionManagement.KEY_EMAIL));
+            etContrasenia.setText(user.get(SessionManagement.KEY_CONTRASENIA));
+            etRepContrasenia.setText(user.get(SessionManagement.KEY_CONTRASENIA));
+            spinner.setSelection(Integer.parseInt(user.get(SessionManagement.KEY_EDAD)));
+            etAltura.setText(user.get(SessionManagement.KEY_ALTURA));
+            etPeso.setText(user.get(SessionManagement.KEY_PESO));
+            if(Boolean.valueOf(user.get(SessionManagement.KEY_SEXO))){
                 rbHombre.setChecked(true);
             }else{
                 rbMujer.setChecked(true);
             }
             btnModReg.setText("Modificar");
-
         }
         //Para el boton de Registrarse o Modificar
         btnModReg.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 boolean validar=true;
+                boolean validarMod=true;
                 RequestParams params = new RequestParams();
                 if(etNombre.getText().toString().matches("")){
                     etNombre.setError("Debe ingresar un Nombre");
                     validar=false;
+                    validarMod=false;
                 }else{
                     //Agregar campos a los parametros de la llamada
                     params.put("nombre",etNombre.getText());
@@ -102,11 +114,13 @@ public class RegistroModificacion extends AppCompatActivity {
                 if(etEmail.getText().toString().matches("")){
                     etEmail.setError("Debe ingresar un Email");
                     validar=false;
+                    validarMod=false;
                 }else{
                     if (!etEmail.getText().toString().matches("[a-zA-Z0-9._-]+@[a-z]+.[a-z]+"))
                     {
                         etEmail.setError("Email no valido");
                         validar=false;
+                        validarMod=false;
                     }
                     else{
                         //Agregar campos a los parametros de la llamada
@@ -117,18 +131,16 @@ public class RegistroModificacion extends AppCompatActivity {
                     etContrasenia.setError("Debe ingresar una contraseña");
                     validar=false;
                 }else{
-                    //Aqui de momento no se hace nada mas
-
-                }
-                if(etRepContrasenia.getText().toString().matches("")){
-                    etRepContrasenia.setError("Debe repetir la contraseña");
-                    validar=false;
-                }else{
-                    //Aqui de momento no se hace nada mas
+                    if(etRepContrasenia.getText().toString().matches("")){
+                        etRepContrasenia.setError("Debe repetir la contraseña");
+                        validar=false;
+                        validarMod=false;
+                    }
                 }
                 if(!etRepContrasenia.getText().toString().matches("")&&!etContrasenia.getText().toString().matches("")){
                     if(!etContrasenia.getText().toString().matches(etRepContrasenia.getText().toString())){
                         validar=false;
+                        validarMod=false;
                         etRepContrasenia.setError("Las contraseñas no concuerdan");
                     }
                     else{
@@ -141,12 +153,12 @@ public class RegistroModificacion extends AppCompatActivity {
                         String generatedPassword= sha256(pass);
                         params.put("password",generatedPassword);
                         params.put("salt",salt.toString());
-
                     }
                 }
                 if(etAltura.getText().toString().matches("")){
                     etAltura.setError("Debe insertar su altura");
                     validar=false;
+                    validarMod=false;
                 }else{
                     //Agregar campos a los parametros de la llamada
                     params.put("altura",etAltura.getText());
@@ -154,6 +166,7 @@ public class RegistroModificacion extends AppCompatActivity {
                 if(etPeso.getText().toString().matches("")){
                     etPeso.setError("Debe insertar su peso");
                     validar=false;
+                    validarMod=false;
                 }else{
                     //Agregar campos a los parametros de la llamada
                     params.put("peso",etPeso.getText());
@@ -163,6 +176,7 @@ public class RegistroModificacion extends AppCompatActivity {
                     TextView selectedTextView = (TextView) selectedView;
                     selectedTextView.setError("Debe seleccionar una edad");
                     validar=false;
+                    validarMod=false;
                 }else{
                     //Agregar campos a los parametros de la llamada
                     params.put("edad",spinner.getSelectedItem().toString());
@@ -171,6 +185,7 @@ public class RegistroModificacion extends AppCompatActivity {
                     rbMujer.setError("Debe seleccionar un sexo");
                     rbHombre.setError("Debe seleccionar un sexo");
                     validar=false;
+                    validarMod=false;
                 }else{
                     rbMujer.setError(null);
                     rbHombre.setError(null);
@@ -196,19 +211,17 @@ public class RegistroModificacion extends AppCompatActivity {
                         params.put("esEntrenador",0);
                         params.put("accion","registro");
                         invokeWS(params);
-
-
+                        RegistroModificacion.super.onBackPressed();
                     }
                 }else{
-                    //Si se valida, entonces hago update
-                    if(validar){
-                            //Si se ha validado, entonces update en BBDD
+                    if(validarMod){
+                        //Si se ha validado, entonces update en BBDD
                         params.put("nickname",etNickname.getText());
                         params.put("esEntrenador",0);
                         params.put("accion","modificarUsuario");
                         invokeWS(params);
+                        //RegistroModificacion.super.onBackPressed();
                     }
-                    RegistroModificacion.super.onBackPressed();
                 }
 
 
@@ -230,16 +243,17 @@ public class RegistroModificacion extends AppCompatActivity {
                     rbHombre.setChecked(false);
                     rbMujer.setChecked(false);
                 }else{
+                    HashMap<String, String> user = session.getUserDetails();
                     etNickname.setEnabled(false);
-                    etNickname.setText(user.getNickname());
-                    etNombre.setText(user.getNombre());
-                    etEmail.setText(user.getEmail());
-                    etContrasenia.setText(user.getContrasenia());
-                    etRepContrasenia.setText(user.getContrasenia());
-                    spinner.setSelection(user.getEdad());
-                    etAltura.setText( new Double(user.getAltura()).toString());
-                    etPeso.setText( new Double(user.getPeso()).toString());
-                    if(user.getSexo()){
+                    etNickname.setText(user.get(SessionManagement.KEY_NICKNAME));
+                    etNombre.setText(user.get(SessionManagement.KEY_NAME));
+                    etEmail.setText(user.get(SessionManagement.KEY_EMAIL));
+                    etContrasenia.setText(user.get(SessionManagement.KEY_CONTRASENIA));
+                    etRepContrasenia.setText(user.get(SessionManagement.KEY_CONTRASENIA));
+                    spinner.setSelection(Integer.parseInt(user.get(SessionManagement.KEY_EDAD)));
+                    etAltura.setText(user.get(SessionManagement.KEY_ALTURA));
+                    etPeso.setText(user.get(SessionManagement.KEY_PESO));
+                    if(Boolean.valueOf(user.get(SessionManagement.KEY_SEXO))){
                         rbHombre.setChecked(true);
                         rbMujer.setChecked(false);
                     }else{
@@ -304,7 +318,7 @@ public class RegistroModificacion extends AppCompatActivity {
                 prgDialog.hide();
                 try {
                     // JSON Object
-                    System.out.println(new String(response));
+                   // System.out.println(new String(response));
                     JSONObject obj = new JSONObject(new String(response));
                     // When the JSON response has status boolean value assigned with true
                     if(obj.getBoolean("status")){

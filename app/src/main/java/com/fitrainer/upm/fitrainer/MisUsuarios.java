@@ -7,10 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import com.fitrainer.upm.fitrainer.ListadoUsuarios.ListViewAdapterUsuarios;
+
+import com.fitrainer.upm.fitrainer.ListadoUsuarios.ListViewAdapterUsuariosDetalle;
 import com.fitrainer.upm.fitrainer.Sesion.AlertDialogManager;
 import com.fitrainer.upm.fitrainer.Sesion.SessionManagement;
 
@@ -32,26 +31,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-public class AsignarUsuario extends AppCompatActivity {
+public class MisUsuarios extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT=10000;
     public static final int READ_TIMEOUT=15000;
-
-
-    // Alert Dialog Manager
-    AlertDialogManager alert = new AlertDialogManager();
 
     // Session Manager Class
     SessionManagement session;
 
-    //ID ENTRENADOR
-    int id_entrenador;
+    // Alert Dialog Manager
+    AlertDialogManager alert = new AlertDialogManager();
 
-    ProgressDialog prgDialog;
+    //ID ENTRENADOR
+    String id_entrenador;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_asignar_usuario);
+        setContentView(R.layout.activity_mis_usuarios);
 
         //SESION
         // get user data from session
@@ -59,38 +55,22 @@ public class AsignarUsuario extends AppCompatActivity {
         session.checkLogin();
         if(!session.checkLogin()){
             HashMap<String, String> user = session.getUserDetails();
-            id_entrenador=Integer.parseInt(user.get(SessionManagement.KEY_ID));
+            id_entrenador=user.get(SessionManagement.KEY_ID);
+            new AsyncUsuariosEntrenados().execute(id_entrenador);
         }
 
-        prgDialog = new ProgressDialog(this);
-        prgDialog.setMessage("Por favor espere...");
-        prgDialog.setCancelable(false);
 
-        final EditText textBusqueda = (EditText) findViewById(R.id.etBuscar);
-
-
-
-        Button btnBuscar = (Button)findViewById(R.id.btnBuscar);
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View arg0) {
-                if(!textBusqueda.getText().toString().equals("")){
-                    String textoBusqueda=textBusqueda.getText().toString();
-                    new AsyncUserAsign().execute(textoBusqueda);
-                }
-            }
-        });
     }
 
-
-    private class AsyncUserAsign extends AsyncTask<String, String, String>
+    private class AsyncUsuariosEntrenados extends AsyncTask<String, String, String>
     {
-        ProgressDialog pdLoading = new ProgressDialog(AsignarUsuario.this);
+        ProgressDialog pdLoading = new ProgressDialog(MisUsuarios.this);
         HttpURLConnection conn;
         URL url = null;
 
         //LISTADO USUARIOS
         ListView list;
-        ListViewAdapterUsuarios listviewadapter;
+        ListViewAdapterUsuariosDetalle listviewadapter;
         List<Usuario> arrayUsuarios = new ArrayList<Usuario>();
 
         @Override
@@ -127,8 +107,8 @@ public class AsignarUsuario extends AppCompatActivity {
 
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("nickname", params[0])
-                        .appendQueryParameter("accion", "obtenerUsuariosPorNick");
+                        .appendQueryParameter("idEntrenador", params[0])
+                        .appendQueryParameter("accion", "obtenerUsuariosEntrenador");
                 String query = builder.build().getEncodedQuery();
 
                 // Open connection for sending data
@@ -173,8 +153,10 @@ public class AsignarUsuario extends AppCompatActivity {
                                 usuario.setNombre(jsonobject.getString("nombre"));
                                 usuario.setEmail(jsonobject.getString("email"));
                                 usuario.setEdad(Integer.parseInt(jsonobject.getString("edad")));
+                                usuario.setAltura(Double.parseDouble(jsonobject.getString("altura")));
+                                usuario.setPeso(Double.parseDouble(jsonobject.getString("peso")));
                                 arrayUsuarios.add(usuario);
-                        }
+                            }
                             errorString="False";
                         }else{
                             errorString="True";
@@ -205,21 +187,21 @@ public class AsignarUsuario extends AppCompatActivity {
             if(result.equals("False"))
             {
                 // Locate the ListView in listview_main.xml
-                list = (ListView) findViewById(R.id.ListView_listadoUserAsign);
+                list = (ListView) findViewById(R.id.ListView_listadoMisUsuarios);
                 list.setVisibility(View.VISIBLE);
                 // Pass results to ListViewAdapterMenu Class
-                listviewadapter = new ListViewAdapterUsuarios(AsignarUsuario.this, R.layout.entrada_usuario,
-                        arrayUsuarios,id_entrenador);
+                listviewadapter = new ListViewAdapterUsuariosDetalle(MisUsuarios.this, R.layout.entrada_usuario_detalle,
+                        arrayUsuarios,Integer.parseInt(id_entrenador));
 
                 // Binds the Adapter to the ListView
                 list.setAdapter(listviewadapter);
             }else if (result.equals("True")){
-                list = (ListView) findViewById(R.id.ListView_listadoUserAsign);
+                list = (ListView) findViewById(R.id.ListView_listadoMisUsuarios);
                 list.setVisibility(View.INVISIBLE);
-                alert.showAlertDialog(AsignarUsuario.this, "La busqueda no ha encontrado resultados", "0 resultados encontrados", false);
+                alert.showAlertDialog(MisUsuarios.this, "La busqueda no ha encontrado resultados", "0 resultados encontrados", false);
 
             } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-                alert.showAlertDialog(AsignarUsuario.this, "Error", "Otro Error", false);
+                alert.showAlertDialog(MisUsuarios.this, "Error", "Otro Error", false);
             }
         }
 

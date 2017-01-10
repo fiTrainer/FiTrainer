@@ -1,8 +1,6 @@
 package com.fitrainer.upm.fitrainer.ListadoRutinas;
 
-/**
- * Created by abel on 11/12/16.
- */
+
 
 import android.content.Context;
 import android.content.Intent;

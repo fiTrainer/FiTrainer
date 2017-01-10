@@ -1,8 +1,5 @@
 package com.fitrainer.upm.fitrainer;
 
-/**
- * Created by abel on 3/12/16.
- */
 
 public class Ejercicio {
     private int idEjercicio;

@@ -40,7 +40,8 @@
         <activity android:name=".MisMenus" />
         <activity android:name=".CompactCalendar" />
         <activity android:name=".AsignarUsuario" />
-        <activity android:name=".DetalleRutina"></activity>
+        <activity android:name=".DetalleRutina" />
+        <activity android:name=".MisUsuarios"></activity>
     </application>
 
 </manifest>
