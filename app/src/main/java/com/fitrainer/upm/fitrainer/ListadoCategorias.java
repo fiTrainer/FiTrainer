@@ -120,7 +120,8 @@ public class ListadoCategorias extends AppCompatActivity implements AdapterView.
                 params.put("fecha",fecha);
                 params.put("accion","agregarRutina");
                 HashMap<String, String> user = session.getUserDetails();
-                params.put("userid",user.get("KEY_ID"));
+                params.put("userid",user.get(SessionManagement.KEY_ID));
+                System.out.println(user.get(SessionManagement.KEY_ID));
                 if(!RutinaSingleton.getInstance().isEmpty()) {
                     ArrayList<Ejercicio> ejercicios = RutinaSingleton.getInstance().getEjercicios();
                     String rutina = "[";
