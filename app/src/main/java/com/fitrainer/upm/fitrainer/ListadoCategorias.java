@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.fitrainer.upm.fitrainer.Sesion.SessionManagement;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -27,6 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import cz.msebera.android.httpclient.Header;
@@ -36,6 +38,7 @@ public class ListadoCategorias extends AppCompatActivity implements AdapterView.
     private GridView gridView;
     private AdaptadorDeCategorias adaptador;
     ProgressDialog prgDialog;
+    SessionManagement session;
 
     static final int DIALOG_ID=0;
 
@@ -57,6 +60,7 @@ public class ListadoCategorias extends AppCompatActivity implements AdapterView.
         day_x = cal.get(Calendar.DAY_OF_MONTH);
         year_x = cal.get(Calendar.YEAR);
 
+        session = new SessionManagement(getApplicationContext());
 
         btn.setOnClickListener(new View.OnClickListener(){
 
@@ -115,7 +119,8 @@ public class ListadoCategorias extends AppCompatActivity implements AdapterView.
                 RequestParams params = new RequestParams();
                 params.put("fecha",fecha);
                 params.put("accion","agregarRutina");
-                params.put("userid",1);
+                HashMap<String, String> user = session.getUserDetails();
+                params.put("userid",user.get("KEY_ID"));
                 if(!RutinaSingleton.getInstance().isEmpty()) {
                     ArrayList<Ejercicio> ejercicios = RutinaSingleton.getInstance().getEjercicios();
                     String rutina = "[";
