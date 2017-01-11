@@ -111,7 +111,7 @@ public class ListadoCategorias extends AppCompatActivity implements AdapterView.
             year_x = year;
             month_x = month + 1;
             day_x = day;
-            SimpleDateFormat sdf = new SimpleDateFormat("mm-dd-yyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
             String date = month_x+"-"+day_x+"-"+year_x;
             try{
                 Date mDate = sdf.parse(date);
@@ -141,6 +141,10 @@ public class ListadoCategorias extends AppCompatActivity implements AdapterView.
                 e.printStackTrace();
             }
             ListadoCategorias.super.onBackPressed();
+            //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            //intent.putExtra("tipoEjercicio", item.getNombre());
+            //startActivity(intent);
+
 
 
         }

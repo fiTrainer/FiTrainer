@@ -73,10 +73,10 @@ public class TabFragment1 extends Fragment {
         String id_usuario=user.get(SessionManagement.KEY_ID);
         expListView = (ExpandableListView) view.findViewById(R.id.laptop_list);
         Date d = new Date();
-        String str = new SimpleDateFormat("mm-dd-yyyy").format(d);
+        String str = new SimpleDateFormat("MM-dd-yyyy").format(d);
         Date mDate = null;
         try {
-            mDate = new SimpleDateFormat("mm-dd-yyy").parse(str);
+            mDate = new SimpleDateFormat("MM-dd-yyyy").parse(str);
         } catch (ParseException e) {
             e.printStackTrace();
         }
